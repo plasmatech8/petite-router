@@ -1,0 +1,11 @@
+<div class="card">
+	<div style="font-weight: bold">Baz Counter:</div>
+	<div v-scope="{ count: 0 }">
+		<div>Count is {{ count }}</div>
+		<button @click="count++">Increment</button>
+	</div>
+</div>
+
+<a href="/baz/buzz">Go to buzz</a>
+
+<div r-path="/baz/buzz" r-title="Baz-Buzz" r-html="/html/baz/buzz/index.html"></div>
