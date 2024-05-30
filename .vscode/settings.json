@@ -1,0 +1,7 @@
+{
+	"liveServer.settings.root": "./example",
+	"files.associations": {
+		"*.css": "css",
+		"css": "css"
+	}
+}
