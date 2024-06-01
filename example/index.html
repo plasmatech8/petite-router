@@ -8,8 +8,10 @@
     <script type="module" defer>
       import { createApp } from 'https://unpkg.com/petite-vue?module';
       import { createRouter } from '/petite-router.es.js';
-      createApp({}).mount();
-      createRouter();
+      const app = createApp({}).mount();
+      const router = createRouter()
+        .afterInjection(app.mount)
+        .afterNavigation(() => console.log(location.pathname));
     </script>
     <link rel="icon" type="image/gif" href="/favicon.gif" />
   </head>
@@ -24,38 +26,34 @@
         <a href="/baz">Baz</a>
       </nav>
     </header>
-    <main r-path="/" r-title="Home">
-      <h2>This is the Home Page!</h2>
 
-      <!-- Welcome -->
-      <div class="card">
-        <h3>Welcome!</h3>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat saepe repellat a iusto
-          earum nostrum porro sequi sit at, dolores modi cupiditate hic necessitatibus nihil?
-          Expedita quos consequuntur quae quidem.
-        </p>
-      </div>
-      <!-- Counter -->
-      <div class="card">
-        <h3>Counter Example</h3>
-        <div v-scope="{ count: 0 }">
-          <div>Count is {{ count }}</div>
-          <button @click="count++">Increment</button>
+    <main>
+      <div r-path="/" r-title="Home">
+        <h2>This is the Home Page!</h2>
+
+        <!-- Welcome -->
+        <div class="card">
+          <h3>Welcome!</h3>
+          <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat saepe repellat a iusto
+            earum nostrum porro sequi sit at, dolores modi cupiditate hic necessitatibus nihil?
+            Expedita quos consequuntur quae quidem.
+          </p>
+        </div>
+        <!-- Counter -->
+        <div class="card">
+          <h3>Counter Example</h3>
+          <div v-scope="{ count: 0 }">
+            <div>Count is {{ count }}</div>
+            <button @click="count++">Increment</button>
+          </div>
         </div>
       </div>
+
+      <div r-path="/foo" r-title="Foo" r-html="/html/foo/index.html" hidden></div>
+      <div r-path="/bar" r-title="Bar" r-html="/html/bar/index.html" hidden></div>
+      <div r-path="/baz" r-title="Baz" r-html="/html/baz/index.html" hidden></div>
     </main>
-
-    <div hidden id="test1" style="position: fixed">
-      <div id="test2">
-        AAA
-        <div id="test3">BBB</div>
-      </div>
-    </div>
-
-    <main r-path="/foo" r-title="Foo" r-html="/html/foo/index.html" hidden>Loading...</main>
-    <main r-path="/bar" r-title="Bar" r-html="/html/bar/index.html" hidden>Loading...</main>
-    <main r-path="/baz" r-title="Baz" r-html="/html/baz/index.html" hidden>Loading...</main>
 
     <footer>
       <div r-html="/html/counter.html"></div>

@@ -2,17 +2,39 @@
  * TODO:
  * - Wildcard parameters (cannot test nested HTML injections yet)
  * - Route parameters
- * - After navigate hook (need this for the vue reactive state)
- * - After inject hook
+ */
+
+const afterInjectionFunctions = [];
+const afterNavigationFunctions = [];
+
+/**
+ * Router object containing callback registration methods.
+ * @typedef {object} Router
+ * @property {Function} afterInjection Add a function to be called after HTML injections when new HTML content is added to the page.
+ * @property {{[key: string]: string}} params URL params for the current route.
  */
 
 /**
  * Initialize a router in the DOM.
+ * @returns {Router} The router object.
  */
 export function createRouter() {
   convertAllAnchorTagsToRouterLinks();
   handleRouting();
   handleInjections();
+  return {
+    afterInjection(fn) {
+      afterInjectionFunctions.push(fn);
+      return this;
+    },
+    afterNavigation(fn) {
+      afterNavigationFunctions.push(fn);
+      return this;
+    },
+    get params() {
+      return history.state;
+    }
+  };
 }
 
 /**
@@ -35,6 +57,9 @@ function handleRouting(to = null) {
       el.setAttribute('hidden', true);
     }
   });
+
+  // Call navigation callbacks
+  afterNavigationFunctions.forEach((f) => f());
 }
 
 /**
@@ -47,6 +72,7 @@ async function handleInjections(to = null, root = document) {
   const elements = Array.from(
     root.querySelectorAll('[r-html]:not([r-html-status="success"],[r-html-status="loading"])')
   );
+  let newContent = false;
   for (const el of elements) {
     const source = el.getAttribute('r-html');
     const path = el.closest('[r-path]')?.getAttribute('r-path');
@@ -54,18 +80,24 @@ async function handleInjections(to = null, root = document) {
     if ((path && !to.startsWith(path)) || !source) continue;
 
     // Inject HTML
-    console.log(`Injecting HTML from source ${source} for ${to}`);
     try {
       el.setAttribute('r-html-status', 'loading');
       const res = await fetch(source);
+      if (!res.ok) throw new Error(`Status: ${res.status} ${res.statusText}`);
       const text = await res.text();
       const html = new DOMParser().parseFromString(text, 'text/html').body;
-      handleInjections(to, html);
+      await handleInjections(to, html);
       el.replaceChildren(...html.childNodes);
       el.setAttribute('r-html-status', 'success');
+      newContent = true;
     } catch (error) {
-      console.error(`Unable to fetch ${source}:`, error);
+      console.error(`Failed to fetch resource from ${source}:`, error);
       el.setAttribute('r-html-status', 'failed');
+    }
+
+    // Call injection callbacks
+    if (newContent) {
+      afterInjectionFunctions.forEach((f) => f());
     }
   }
 }
