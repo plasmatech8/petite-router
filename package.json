@@ -1,16 +1,13 @@
 {
   "name": "petite-router",
+  "description": "A small and flexible router for single-page applications",
   "version": "0.0.1",
   "license": "MIT",
   "author": "plasmatech8",
   "type": "module",
   "source": "src/index.ts",
-  "module": "./dist/index.module.mjs",
-  "exports": {
-    ".": "./dist/foo.mjs",
-    "./lite": "./dist/foo.modern.mjs",
-    "./full": "./dist/foo.modern.mjs"
-  },
+  "main": "dist/petite-router.js",
+  "module": "dist/petite-router.es.js",
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -c -w",
@@ -27,5 +24,9 @@
     "npm-run-all": "^4.1.5",
     "prettier": "3.2.5",
     "rollup": "^4.18.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/plasmatech8/petite-router.git"
   }
 }
