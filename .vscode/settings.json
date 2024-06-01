@@ -4,14 +4,5 @@
   "files.associations": {
     "*.css": "css",
     "css": "css"
-  },
-  "cSpell.words": [
-    "asdas",
-    "codepaths",
-    "parseable",
-    "Parseable",
-    "Parseble",
-    "tsbuildinfo",
-    "tseslint"
-  ]
+  }
 }
