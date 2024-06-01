@@ -1,11 +1,6 @@
-/*
- * TODO:
- * - Wildcard parameters (cannot test nested HTML injections yet)
- * - Route parameters
- */
-
 const afterInjectionFunctions = [];
 const afterNavigationFunctions = [];
+let params = {};
 
 /**
  * Router object containing callback registration methods.
@@ -19,9 +14,6 @@ const afterNavigationFunctions = [];
  * @returns {Router} The router object.
  */
 export function createRouter() {
-  convertAllAnchorTagsToRouterLinks();
-  handleRouting();
-  handleInjections();
   return {
     afterInjection(fn) {
       afterInjectionFunctions.push(fn);
@@ -32,7 +24,26 @@ export function createRouter() {
       return this;
     },
     get params() {
-      return history.state;
+      return params;
+    },
+    mount() {
+      convertAllAnchorTagsToRouterLinks();
+      handleRouting();
+      handleInjections();
+    },
+    back() {
+      history.back();
+    },
+    forward() {
+      history.forward();
+    },
+    push(path) {
+      history.pushState({}, '', path);
+      handleRouting();
+    },
+    replace(path) {
+      history.replaceState({}, '', path);
+      handleRouting();
     }
   };
 }
@@ -42,21 +53,22 @@ export function createRouter() {
  * @param {string} to Path used for updating the DOM. Defaults to window.location.pathname.
  */
 function handleRouting(to = null) {
+  params = {};
   if (!to) to = window.location.pathname;
 
-  // Toggle elements based on route path
+  // Update elements based on route path
   const elements = document.querySelectorAll('[r-path]');
   let routeFound = false;
   elements.forEach((el) => {
     const path = el.getAttribute('r-path');
     const title = el.getAttribute('r-title');
-
-    // Update hidden attributes
-    // TODO: update URL matching
-    if (to === path) {
+    // If r-path matches, update hidden attribute and add route parameters to history state
+    const match = matchRoute(path, to);
+    if (match) {
       if (title) document.title = title;
       el.removeAttribute('hidden');
       routeFound = true;
+      params = { ...params, ...match };
     } else {
       el.setAttribute('hidden', true);
     }
@@ -85,8 +97,7 @@ async function handleInjections(to = null, root = document) {
   for (const el of elements) {
     const source = el.getAttribute('r-html');
     const path = el.closest('[r-path]')?.getAttribute('r-path');
-    // TODO: update URL matching
-    if ((path && !to.startsWith(path)) || !source) continue;
+    if (!path || !source || !matchRoute(path, to)) continue;
 
     // Inject HTML
     try {
@@ -147,4 +158,28 @@ function convertAllAnchorTagsToRouterLinks() {
   addEventListener('pushstate', navigate);
   addEventListener('click', click);
   addEventListener('mouseover', hover);
+}
+
+/**
+ * Check if a route string matches a path string.
+ * @param {string} route Route path string
+ * @param {string} path Destination path string
+ * @returns {{ params: {[key: string]: string }} | null} Returns an object of route information if matched, otherwise null.
+ */
+function matchRoute(route, path) {
+  // Convert route string to regex pattern
+  const patternString = route
+    // Escape any regex
+    .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    // Convert :param(*) to (/(?<param>.+))?
+    .replace(/\/:([^\s/]+)\\\(\\\*\\\)/g, (_, paramName) => `(/(?<${paramName}>.+))?`)
+    // Convert :param to (?<param>[^/]+)
+    .replace(/:([^\s/]+)/g, (_, paramName) => `(?<${paramName}>[^/]+)`)
+    // Convert /** to (/.+)?
+    .replace(/\/\\\*\\\*/g, '(/.+)?')
+    // Convert * to [^/]+
+    .replace(/\\\*/g, '[^/]+');
+  const pattern = new RegExp(`^${patternString}/?$`);
+  const match = path.match(pattern);
+  return match ? { ...match.groups } : null;
 }
