@@ -108,9 +108,7 @@ function handleRouting(to = null) {
  */
 async function handleInjections(to = null, root = document) {
   if (!to) to = window.location.pathname;
-  const elements = Array.from(
-    root.querySelectorAll('[r-html]:not([r-status="success"],[r-status="loading"])')
-  );
+  const elements = Array.from(root.querySelectorAll('[r-html]:not([r-status])'));
   let newContent = false;
   for (const el of elements) {
     const source = el.getAttribute('r-html');

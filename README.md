@@ -51,3 +51,5 @@ The contents of `r-html` will be fetched and injected onto the page when:
 - The user navigates to a URL path which matches the `r-path` of the closest parent element
 - The user navigates to a URL path which is not contained by a `r-path` element
 - The hovers over an anchor tag where the `href` matches the `r-path` of the closest parent element
+
+Note: if `r-status` exists on the element, content will not be fetched (or re-fetched).
