@@ -6,12 +6,22 @@
     <title>Home Page</title>
     <link rel="stylesheet" href="/styles.css" />
     <script type="module" defer>
-      import { createApp } from 'https://unpkg.com/petite-vue?module';
+      import { createApp, reactive } from 'https://unpkg.com/petite-vue?module';
       import { createRouter } from '/petite-router.es.js';
-      const app = createApp({}).mount();
-      const router = createRouter()
-        .afterInjection(app.mount)
-        .afterNavigation(() => console.log(location.pathname));
+
+      // Initialize state
+      const router = createRouter();
+      const state = {
+        router,
+        init() {
+          this.router = router;
+        }
+      };
+      const app = createApp(state);
+
+      // Mount vue and router
+      app.mount();
+      router.afterInjection(app.mount).afterNavigation(state.init).mount();
     </script>
     <link rel="icon" type="image/gif" href="/favicon.gif" />
   </head>
@@ -29,7 +39,9 @@
     </header>
 
     <main>
-      <div r-path="/" r-title="Home">
+      <div r-path="none" r-html-status="loading"></div>
+
+      <div r-path="/" r-title="Home" hidden>
         <h2>This is the Home Page!</h2>
 
         <!-- Welcome -->
@@ -53,9 +65,9 @@
 
       <div r-path="/foo" r-title="Foo" r-html="/html/foo/index.html" hidden></div>
       <div r-path="/bar" r-title="Bar" r-html="/html/bar/index.html" hidden></div>
-      <div r-path="/baz" r-title="Baz" r-html="/html/baz/index.html" hidden></div>
+      <div r-path="/baz/**" r-title="Baz" r-html="/html/baz/index.html" hidden></div>
 
-      <div r-path="404" r-only style="text-align: center">
+      <div r-path="404" style="text-align: center" hidden>
         <h1>404</h1>
         <p>Oops! Page not found.</p>
         <p><a href="/">Go back to home</a></p>
