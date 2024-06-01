@@ -9,7 +9,7 @@ let params = {};
  * @property {Function} afterNavigation Add a function to be called after navigation events.
  * @property {{[key: string]: string}} params URL params for the current route.
  * @property {string} path The current path.
- * @property {Function} mount Initialize and mount the router.
+ * @property {Function} mount Initialize and mount the router to the DOM.
  * @property {Function} back Navigate to the previous history entry.
  * @property {Function} forward Navigate to the next history entry.
  * @property {Function} push Push a new state onto the history stack.
