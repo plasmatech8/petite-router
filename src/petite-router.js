@@ -6,13 +6,20 @@
  * - After inject hook
  */
 
+/**
+ * Initialize a router in the DOM.
+ */
 export function createRouter() {
   convertAllAnchorTagsToRouterLinks();
   handleRouting();
   handleInjections();
 }
 
-function handleRouting(to?: string) {
+/**
+ * Hide and show HTML elements with r-path attribute based on the value.
+ * @param {string} to Path used for updating the DOM. Defaults to window.location.pathname.
+ */
+function handleRouting(to = null) {
   if (!to) to = window.location.pathname;
   const elements = document.querySelectorAll('[r-path]');
   elements.forEach((el) => {
@@ -25,12 +32,17 @@ function handleRouting(to?: string) {
       if (title) document.title = title;
       el.removeAttribute('hidden');
     } else {
-      el.setAttribute('hidden', '');
+      el.setAttribute('hidden', true);
     }
   });
 }
 
-async function handleInjections(to?: string, root: Document | HTMLElement = document) {
+/**
+ * Inject HTML from a URL into elements with the r-html attribute.
+ * @param {string} to Path used for updating the DOM. Defaults to window.location.pathname.
+ * @param {Document | HTMLElement} root The root element whose children will be updated. Defaults to document.
+ */
+async function handleInjections(to = null, root = document) {
   if (!to) to = window.location.pathname;
   const elements = Array.from(
     root.querySelectorAll('[r-html]:not([r-html-status="success"],[r-html-status="loading"])')
@@ -49,7 +61,7 @@ async function handleInjections(to?: string, root: Document | HTMLElement = docu
       const text = await res.text();
       const html = new DOMParser().parseFromString(text, 'text/html').body;
       handleInjections(to, html);
-      el.replaceChildren(...Array.from(html.childNodes));
+      el.replaceChildren(...html.childNodes);
       el.setAttribute('r-html-status', 'success');
     } catch (error) {
       console.error(`Unable to fetch ${source}:`, error);
@@ -58,9 +70,12 @@ async function handleInjections(to?: string, root: Document | HTMLElement = docu
   }
 }
 
+/**
+ * Converts all anchor tags in the DOM into router links if they navigate to the same host.
+ */
 function convertAllAnchorTagsToRouterLinks() {
-  function click(e: MouseEvent) {
-    const anchor = (e as MouseEvent & { target: HTMLAnchorElement }).target.closest('a');
+  const click = (e) => {
+    const anchor = e.target.closest('a');
     const href = anchor && anchor.getAttribute('href');
     if (
       e.ctrlKey ||
@@ -77,15 +92,15 @@ function convertAllAnchorTagsToRouterLinks() {
     e.preventDefault();
     history.pushState({}, '', href);
     handleRouting();
-  }
-  function hover(e: MouseEvent) {
-    const anchor = (e as MouseEvent & { target: HTMLAnchorElement }).target.closest('a');
+  };
+  const hover = (e) => {
+    const anchor = e.target.closest('a');
     if (anchor?.pathname) handleInjections(anchor.pathname);
-  }
-  function navigate() {
+  };
+  const navigate = () => {
     handleRouting();
     handleInjections();
-  }
+  };
   addEventListener('popstate', navigate);
   addEventListener('replacestate', navigate);
   addEventListener('pushstate', navigate);

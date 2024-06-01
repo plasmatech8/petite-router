@@ -1,31 +1,36 @@
-import typescript from '@rollup/plugin-typescript';
 import terser from '@rollup/plugin-terser';
 
 export default {
-  input: 'src/petite-router.ts',
+  input: 'src/petite-router.js',
   output: [
+    // CommonJS
     {
       file: 'dist/petite-router.js',
-      format: 'es',
+      format: 'commonjs',
       name: 'PetiteRouter',
-      banner: '???'
+      plugins: [terser()]
     },
+    // ES Module
     {
-      file: 'dist/petite-router.min.js',
+      file: 'dist/petite-router.es.js',
       format: 'es',
       name: 'PetiteRouter',
       plugins: [terser()]
     },
+    // Universal Module Definition
     {
-      file: 'example/petite-router.es.min.js',
-      format: 'es',
+      file: 'dist/petite-router.umd.js',
+      format: 'umd',
       name: 'PetiteRouter',
       plugins: [terser()]
     },
+    // Add to example code
     {
-      file: 'dist/petite-router.d.js',
-      format: 'es'
+      file: 'example/petite-router.es.js',
+      format: 'es',
+      name: 'PetiteRouter',
+      plugins: [terser()]
     }
   ],
-  plugins: [typescript()]
+  plugins: []
 };
