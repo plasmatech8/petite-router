@@ -2,6 +2,10 @@
 
 A tiny client-side SPA router.
 
+Zero dependencies.
+
+Size < 2.8kB.
+
 Uses `r-*` HTML directives to define your routing information.
 
 Features:
