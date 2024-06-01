@@ -1,8 +1,17 @@
 {
-	"liveServer.settings.root": "./example",
-	"liveServer.settings.file": "/",
-	"files.associations": {
-		"*.css": "css",
-		"css": "css"
-	}
+  "liveServer.settings.root": "./example",
+  "liveServer.settings.file": "/",
+  "files.associations": {
+    "*.css": "css",
+    "css": "css"
+  },
+  "cSpell.words": [
+    "asdas",
+    "codepaths",
+    "parseable",
+    "Parseable",
+    "Parseble",
+    "tsbuildinfo",
+    "tseslint"
+  ]
 }
