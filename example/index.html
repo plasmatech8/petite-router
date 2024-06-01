@@ -39,7 +39,7 @@
     </header>
 
     <main>
-      <div r-path="none" r-html-status="loading"></div>
+      <div r-path="none" r-status="loading"></div>
 
       <div r-path="/" r-title="Home" hidden>
         <h2>This is the Home Page!</h2>
@@ -67,7 +67,7 @@
       <div r-path="/bar" r-title="Bar" r-html="/html/bar/index.html" hidden></div>
       <div r-path="/baz/**" r-title="Baz" r-html="/html/baz/index.html" hidden></div>
 
-      <div r-path="404" style="text-align: center" hidden>
+      <div r-path="404" r-title="Page Not Found" style="text-align: center" hidden>
         <h1>404</h1>
         <p>Oops! Page not found.</p>
         <p><a href="/">Go back to home</a></p>
