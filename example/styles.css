@@ -110,16 +110,17 @@ img {
 
 /* Loading & Error Icons */
 
-[r-html-status='loading'],
-[r-html-status='failed'] {
+[r-status='loading'],
+[r-status='error'] {
   padding: 2rem;
+  text-align: center;
 }
 
-[r-html-status='loading']::before {
+[r-status='loading']::before {
   content: '';
-  display: block;
+  display: inline-block;
   width: 50px;
-  padding: 8px;
+  padding: 10px;
   border-radius: 50%;
   aspect-ratio: 1;
   background: green;
@@ -137,9 +138,9 @@ img {
   }
 }
 
-[r-html-status='failed']::before {
+[r-status='error']::before {
   font-size: 1.5rem;
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   align-items: center;
   width: 56px;

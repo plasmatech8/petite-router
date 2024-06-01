@@ -79,7 +79,11 @@ function handleRouting(to = null) {
 
   // No matching route, 404
   if (!routeFound) {
-    document.querySelectorAll('[r-path="404"]').forEach((el) => el.removeAttribute('hidden'));
+    document.querySelectorAll('[r-path="404"]').forEach((el) => {
+      const title = el.getAttribute('r-title');
+      if (title) document.title = title;
+      el.removeAttribute('hidden');
+    });
   }
 
   // Call navigation callbacks
@@ -94,28 +98,27 @@ function handleRouting(to = null) {
 async function handleInjections(to = null, root = document) {
   if (!to) to = window.location.pathname;
   const elements = Array.from(
-    root.querySelectorAll('[r-html]:not([r-html-status="success"],[r-html-status="loading"])')
+    root.querySelectorAll('[r-html]:not([r-status="success"],[r-status="loading"])')
   );
   let newContent = false;
   for (const el of elements) {
     const source = el.getAttribute('r-html');
     const path = el.closest('[r-path]')?.getAttribute('r-path');
-    if (!path || !source || !matchRoute(path, to)) continue;
-
+    if (!source || (path && !matchRoute(path, to))) continue;
     // Inject HTML
     try {
-      el.setAttribute('r-html-status', 'loading');
+      el.setAttribute('r-status', 'loading');
       const res = await fetch(source);
       if (!res.ok) throw new Error(`Status: ${res.status} ${res.statusText}`);
       const text = await res.text();
       const html = new DOMParser().parseFromString(text, 'text/html').body;
       await handleInjections(to, html);
       el.replaceChildren(...html.childNodes);
-      el.setAttribute('r-html-status', 'success');
+      el.setAttribute('r-status', 'success');
       newContent = true;
     } catch (error) {
       console.error(`Failed to fetch resource from ${source}:`, error);
-      el.setAttribute('r-html-status', 'failed');
+      el.setAttribute('r-status', 'error');
     }
 
     // Call injection callbacks
