@@ -1,64 +1,64 @@
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Home Page</title>
-		<link rel="stylesheet" href="/styles.css" />
-		<script type="module" defer>
-			import { createApp } from 'https://unpkg.com/petite-vue?module';
-			import { createRouter } from '/index.js';
-			createApp({}).mount();
-			createRouter();
-		</script>
-		<link rel="icon" type="image/gif" href="/favicon.gif" />
-	</head>
-	<body v-scope>
-		<header>
-			<h1>Welcome to my Website</h1>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home Page</title>
+    <link rel="stylesheet" href="/styles.css" />
+    <script type="module" defer>
+      import { createApp } from 'https://unpkg.com/petite-vue?module';
+      import { createRouter } from '/petite-router.es.js';
+      createApp({}).mount();
+      createRouter();
+    </script>
+    <link rel="icon" type="image/gif" href="/favicon.gif" />
+  </head>
+  <body v-scope>
+    <header>
+      <h1>Welcome to my Website</h1>
 
-			<nav>
-				<a href="/">Home</a>
-				<a href="/foo">Foo</a>
-				<a href="/bar">Bar</a>
-				<a href="/baz">Baz</a>
-			</nav>
-		</header>
-		<main r-path="/" r-title="Home">
-			<h2>This is the Home Page!</h2>
+      <nav>
+        <a href="/">Home</a>
+        <a href="/foo">Foo</a>
+        <a href="/bar">Bar</a>
+        <a href="/baz">Baz</a>
+      </nav>
+    </header>
+    <main r-path="/" r-title="Home">
+      <h2>This is the Home Page!</h2>
 
-			<!-- Welcome -->
-			<div class="card">
-				<h3>Welcome!</h3>
-				<p>
-					Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat saepe repellat a iusto
-					earum nostrum porro sequi sit at, dolores modi cupiditate hic necessitatibus nihil?
-					Expedita quos consequuntur quae quidem.
-				</p>
-			</div>
-			<!-- Counter -->
-			<div class="card">
-				<h3>Counter Example</h3>
-				<div v-scope="{ count: 0 }">
-					<div>Count is {{ count }}</div>
-					<button @click="count++">Increment</button>
-				</div>
-			</div>
-		</main>
+      <!-- Welcome -->
+      <div class="card">
+        <h3>Welcome!</h3>
+        <p>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat saepe repellat a iusto
+          earum nostrum porro sequi sit at, dolores modi cupiditate hic necessitatibus nihil?
+          Expedita quos consequuntur quae quidem.
+        </p>
+      </div>
+      <!-- Counter -->
+      <div class="card">
+        <h3>Counter Example</h3>
+        <div v-scope="{ count: 0 }">
+          <div>Count is {{ count }}</div>
+          <button @click="count++">Increment</button>
+        </div>
+      </div>
+    </main>
 
-		<div hidden id="test1" style="position: fixed">
-			<div id="test2">
-				AAA
-				<div id="test3">BBB</div>
-			</div>
-		</div>
+    <div hidden id="test1" style="position: fixed">
+      <div id="test2">
+        AAA
+        <div id="test3">BBB</div>
+      </div>
+    </div>
 
-		<main r-path="/foo" r-title="Foo" r-html="/html/foo/index.html" hidden>Loading...</main>
-		<main r-path="/bar" r-title="Bar" r-html="/html/bar/index.html" hidden>Loading...</main>
-		<main r-path="/baz" r-title="Baz" r-html="/html/baz/index.html" hidden>Loading...</main>
+    <main r-path="/foo" r-title="Foo" r-html="/html/foo/index.html" hidden>Loading...</main>
+    <main r-path="/bar" r-title="Bar" r-html="/html/bar/index.html" hidden>Loading...</main>
+    <main r-path="/baz" r-title="Baz" r-html="/html/baz/index.html" hidden>Loading...</main>
 
-		<footer>
-			<div r-html="/html/counter.html"></div>
-		</footer>
-	</body>
+    <footer>
+      <div r-html="/html/counter.html"></div>
+    </footer>
+  </body>
 </html>
