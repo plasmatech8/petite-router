@@ -112,7 +112,7 @@ async function handleInjections(to = null, root = document) {
       if (!res.ok) throw new Error(`Status: ${res.status} ${res.statusText}`);
       const text = await res.text();
       const html = new DOMParser().parseFromString(text, 'text/html').body;
-      await handleInjections(to, html);
+      handleInjections(to, html);
       el.replaceChildren(...html.childNodes);
       el.setAttribute('r-status', 'success');
       newContent = true;
