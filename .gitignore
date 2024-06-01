@@ -7,3 +7,4 @@ node_modules
 .env.*
 !.env.example
 example/petite-router.es.js
+example/petite-router.es.js.map
