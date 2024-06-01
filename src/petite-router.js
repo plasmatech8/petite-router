@@ -47,6 +47,17 @@ export function createRouter() {
     replace(path) {
       history.replaceState({}, '', path);
       handleRouting();
+    },
+    match(route, to = location.pathname) {
+      if (route === '404') {
+        const elements = document.querySelectorAll('[r-path]');
+        const noMatches = Array.from(elements).every((el) => {
+          const path = el.getAttribute('r-path');
+          return !matchRoute(path, to);
+        });
+        return noMatches;
+      }
+      return !!matchRoute(route, to);
     }
   };
 }

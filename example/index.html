@@ -13,28 +13,27 @@
       const router = createRouter();
       const state = {
         router,
-        init() {
-          this.router = router;
+        afterNav() {
+          this.router = { ...router };
         }
       };
       const app = createApp(state);
 
       // Mount vue and router
       app.mount();
-      router.afterInjection(app.mount).afterNavigation(state.init).mount();
+      router.afterInjection(app.mount).afterNavigation(state.afterNav).mount();
     </script>
     <link rel="icon" type="image/gif" href="/favicon.gif" />
   </head>
   <body v-scope>
     <header>
       <h1>Welcome to my Website</h1>
-
       <nav>
-        <a href="/">Home</a>
-        <a href="/foo">Foo</a>
-        <a href="/bar">Bar</a>
-        <a href="/baz">Baz</a>
-        <a href="/404">404</a>
+        <a href="/" :class="{ active: router.match('/') }">Home</a>
+        <a href="/foo" :class="{ active: router.match('/foo') }">Foo</a>
+        <a href="/bar" :class="{ active: router.match('/bar') }">Bar</a>
+        <a href="/baz" :class="{ active: router.match('/baz/**') }">Baz</a>
+        <a href="/404" :class="{ active: router.match('404') }">404</a>
       </nav>
     </header>
 
