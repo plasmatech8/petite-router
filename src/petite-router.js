@@ -26,6 +26,9 @@ export function createRouter() {
     get params() {
       return params;
     },
+    get path() {
+      return location.pathname;
+    },
     mount() {
       convertAllAnchorTagsToRouterLinks();
       handleRouting();
@@ -117,6 +120,7 @@ async function handleInjections(to = null, root = document) {
 
     // Call injection callbacks
     if (newContent) {
+      handleRouting();
       afterInjectionFunctions.forEach((f) => f());
     }
   }
