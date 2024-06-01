@@ -24,6 +24,7 @@
         <a href="/foo">Foo</a>
         <a href="/bar">Bar</a>
         <a href="/baz">Baz</a>
+        <a href="/404">404</a>
       </nav>
     </header>
 
@@ -53,6 +54,12 @@
       <div r-path="/foo" r-title="Foo" r-html="/html/foo/index.html" hidden></div>
       <div r-path="/bar" r-title="Bar" r-html="/html/bar/index.html" hidden></div>
       <div r-path="/baz" r-title="Baz" r-html="/html/baz/index.html" hidden></div>
+
+      <div r-path="404" r-only style="text-align: center">
+        <h1>404</h1>
+        <p>Oops! Page not found.</p>
+        <p><a href="/">Go back to home</a></p>
+      </div>
     </main>
 
     <footer>

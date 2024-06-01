@@ -43,7 +43,10 @@ export function createRouter() {
  */
 function handleRouting(to = null) {
   if (!to) to = window.location.pathname;
+
+  // Toggle elements based on route path
   const elements = document.querySelectorAll('[r-path]');
+  let routeFound = false;
   elements.forEach((el) => {
     const path = el.getAttribute('r-path');
     const title = el.getAttribute('r-title');
@@ -53,10 +56,16 @@ function handleRouting(to = null) {
     if (to === path) {
       if (title) document.title = title;
       el.removeAttribute('hidden');
+      routeFound = true;
     } else {
       el.setAttribute('hidden', true);
     }
   });
+
+  // No matching route, 404
+  if (!routeFound) {
+    document.querySelectorAll('[r-path="404"]').forEach((el) => el.removeAttribute('hidden'));
+  }
 
   // Call navigation callbacks
   afterNavigationFunctions.forEach((f) => f());
