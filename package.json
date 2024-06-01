@@ -14,7 +14,7 @@
   "scripts": {
     "build": "rollup -c",
     "watch": "rollup -c -w",
-    "serve": "live-server example --entry-file=index.html",
+    "serve": "node devserver.cjs",
     "dev": "npm-run-all --parallel watch serve"
   },
   "devDependencies": {
