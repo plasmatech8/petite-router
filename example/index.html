@@ -14,13 +14,14 @@
       const state = {
         router,
         afterNav() {
-          this.router = { ...router };
+          this.router = Object.assign(Object.create(Object.getPrototypeOf(router)));
         }
       };
-      const app = createApp(state);
 
-      // Mount vue and router
-      app.mount();
+      // Mount Vue app with state
+      const app = createApp(state).mount();
+
+      // Mount router with callbacks
       router.afterInjection(app.mount).afterNavigation(state.afterNav).mount();
     </script>
     <link rel="icon" type="image/gif" href="/favicon.gif" />

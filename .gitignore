@@ -8,3 +8,4 @@ node_modules
 !.env.example
 example/petite-router.es.js
 example/petite-router.es.js.map
+/types

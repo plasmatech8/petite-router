@@ -1,82 +1,129 @@
+/**
+ * @type {Function[]}
+ */
 const afterInjectionFunctions = [];
+
+/**
+ * @type {Function[]}
+ */
 const afterNavigationFunctions = [];
+
+/**
+ * @type {{[key: string]: string}}
+ */
 let params = {};
 
 /**
- * Router object containing callback registration methods and utilities for navigating and managing routes.
- * @typedef {object} Router
- * @property {Function} afterInjection Add a function to be called after HTML injections when new HTML content is added to the page.
- * @property {Function} afterNavigation Add a function to be called after navigation events.
- * @property {{[key: string]: string}} params URL params for the current route.
- * @property {string} path The current path.
- * @property {Function} mount Initialize and mount the router to the DOM.
- * @property {Function} back Navigate to the previous history entry.
- * @property {Function} forward Navigate to the next history entry.
- * @property {Function} push Push a new state onto the history stack.
- * @property {Function} replace Replace the current state in the history stack.
- * @property {Function} match Check if a route string matches the current path or a specified path.
+ * Router object containing callback registration methods and utilities for navigating and
+ * managing routes.
  */
+class Router {
+  /**
+   * Initialize and mount the router to the DOM.
+   * @returns {Router} Returns the router.
+   */
+  mount() {
+    convertAllAnchorTagsToRouterLinks();
+    handleRouting();
+    handleInjections();
+    return this;
+  }
+  /**
+   * Add a callback that will be called after new HTML content is injected onto the page.
+   * @param {Function} fn Function that will be called after injection.
+   * @returns {Router} Returns the router.
+   */
+  afterInjection(fn) {
+    afterInjectionFunctions.push(fn);
+    return this;
+  }
+  /**
+   * Add a callback that will be called after new HTML content is injected onto the page.
+   * @param {Function} fn Function that will be called after injection.
+   * @returns {Router} Returns the router.
+   */
+  afterNavigation(fn) {
+    afterNavigationFunctions.push(fn);
+    return this;
+  }
+  /**
+   * Get the URL parameters extracted from the current route and path.
+   * @returns {{[key: string]: string}} URL parameters for the current route.
+   */
+  get params() {
+    return params;
+  }
+  /**
+   * Get the current URL path.
+   * @returns {string} The current path from location.pathname
+   */
+  get path() {
+    return location.pathname;
+  }
+  /**
+   * Navigate to the previous history entry.
+   */
+  back() {
+    history.back();
+  }
+  /**
+   * forward Navigate to the next history entry.
+   */
+  forward() {
+    history.forward();
+  }
+  /**
+   * Navigate to a new URL path on the site and push the state to the history stack.
+   * @param {string} path URL path to navigate to.
+   */
+  push(path) {
+    history.pushState({}, '', path);
+    handleRouting();
+  }
+  /**
+   * Navigate to a new URL path on the site and replace the state to the history stack.
+   * @param {string} path URL path to navigate to.
+   */
+  replace(path) {
+    history.replaceState({}, '', path);
+    handleRouting();
+  }
+  /**
+   * Check if the route matches the current URL path, or specified URL path.
+   * @param {string} route Route string.
+   * @param {string} to Path string to check if matches the route. Defaults to the current URL path.
+   * @returns {boolean} Whether the path matches the route string.
+   */
+  match(route, to = location.pathname) {
+    if (route === '404') {
+      const elements = document.querySelectorAll('[r-path]');
+      const noMatches = Array.from(elements).every((el) => {
+        const path = el.getAttribute('r-path');
+        return !(path && matchRoute(path, to));
+      });
+      return noMatches;
+    }
+    return !!matchRoute(route, to);
+  }
+}
 
 /**
- * Initialize a router in the DOM.
- * @returns {Router} The router object.
+ * Return a Router instance.
+ * @returns {Router} The router.
  */
 export function createRouter() {
-  return {
-    afterInjection(fn) {
-      afterInjectionFunctions.push(fn);
-      return this;
-    },
-    afterNavigation(fn) {
-      afterNavigationFunctions.push(fn);
-      return this;
-    },
-    get params() {
-      return params;
-    },
-    get path() {
-      return location.pathname;
-    },
-    mount() {
-      convertAllAnchorTagsToRouterLinks();
-      handleRouting();
-      handleInjections();
-    },
-    back() {
-      history.back();
-    },
-    forward() {
-      history.forward();
-    },
-    push(path) {
-      history.pushState({}, '', path);
-      handleRouting();
-    },
-    replace(path) {
-      history.replaceState({}, '', path);
-      handleRouting();
-    },
-    match(route, to = location.pathname) {
-      if (route === '404') {
-        const elements = document.querySelectorAll('[r-path]');
-        const noMatches = Array.from(elements).every((el) => {
-          const path = el.getAttribute('r-path');
-          return !matchRoute(path, to);
-        });
-        return noMatches;
-      }
-      return !!matchRoute(route, to);
-    }
-  };
+  return new Router();
 }
 
 /**
  * Hide and show HTML elements with r-path attribute based on the value.
- * @param {string} to Path used for updating the DOM. Defaults to window.location.pathname.
+ * @param {string} to Path used for updating the DOM. Defaults to location.pathname.
  */
-function handleRouting(to = null) {
+function handleRouting(to = location.pathname) {
+  /**
+   * @type {{[key: string]: string}}
+   */
   params = {};
-  if (!to) to = window.location.pathname;
 
   // Update elements based on route path
   const elements = document.querySelectorAll('[r-path]');
@@ -85,14 +132,14 @@ function handleRouting(to = null) {
     const path = el.getAttribute('r-path');
     const title = el.getAttribute('r-title');
     // If r-path matches, update hidden attribute and add route parameters to history state
-    const match = matchRoute(path, to);
+    const match = path && matchRoute(path, to);
     if (match) {
       if (title) document.title = title;
       el.removeAttribute('hidden');
       routeFound = true;
       params = { ...params, ...match };
     } else {
-      el.setAttribute('hidden', true);
+      el.setAttribute('hidden', '');
     }
   });
 
@@ -114,8 +161,7 @@ function handleRouting(to = null) {
  * @param {string} to Path used for updating the DOM. Defaults to window.location.pathname.
  * @param {Document | HTMLElement} root The root element whose children will be updated. Defaults to document.
  */
-async function handleInjections(to = null, root = document) {
-  if (!to) to = window.location.pathname;
+async function handleInjections(to = window.location.pathname, root = document) {
   const elements = Array.from(root.querySelectorAll('[r-html]:not([r-status])'));
   let newContent = false;
   for (const el of elements) {
@@ -150,8 +196,12 @@ async function handleInjections(to = null, root = document) {
  * Converts all anchor tags in the DOM into router links if they navigate to the same host.
  */
 function convertAllAnchorTagsToRouterLinks() {
+  /**
+   * @param {MouseEvent} e Click event on child of anchor link.
+   */
   const click = (e) => {
-    const anchor = e.target.closest('a');
+    // @ts-ignore
+    const anchor = e.target?.closest('a');
     const href = anchor && anchor.getAttribute('href');
     if (
       e.ctrlKey ||
@@ -169,8 +219,12 @@ function convertAllAnchorTagsToRouterLinks() {
     history.pushState({}, '', href);
     handleRouting();
   };
+  /**
+   * @param {MouseEvent} e Hover event in child of anchor link.
+   */
   const hover = (e) => {
-    const anchor = e.target.closest('a');
+    // @ts-ignore
+    const anchor = e.target?.closest('a');
     if (anchor?.pathname) handleInjections(anchor.pathname);
   };
   const navigate = () => {
@@ -188,7 +242,7 @@ function convertAllAnchorTagsToRouterLinks() {
  * Check if a route string matches a path string.
  * @param {string} route Route path string
  * @param {string} path Destination path string
- * @returns {{ params: {[key: string]: string }} | null} Returns an object of route information if matched, otherwise null.
+ * @returns {{[key: string]: string } | null} Returns an object of route information if matched, otherwise null.
  */
 function matchRoute(route, path) {
   // Convert route string to regex pattern
