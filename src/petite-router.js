@@ -172,8 +172,15 @@ async function handleInjections(to = window.location.pathname, root = document) 
     try {
       el.setAttribute('r-status', 'loading');
       const res = await fetch(source);
-      if (!res.ok) throw new Error(`Status: ${res.status} ${res.statusText}`);
+      if (!res.ok) {
+        throw new Error(`Status: ${res.status} ${res.statusText}`);
+      }
       const text = await res.text();
+      if (text.match(/<html\s*[^>]*>/)) {
+        throw new Error(
+          'File contains <html> tag indicating that it is a page and not a snippet of HTML.'
+        );
+      }
       const html = new DOMParser().parseFromString(text, 'text/html').body;
       handleInjections(to, html);
       el.replaceChildren(...html.childNodes);
