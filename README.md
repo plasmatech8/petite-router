@@ -1,25 +1,62 @@
 # petite-router
 
-A tiny client-side SPA router.
+Petite Router is a lightweight client-side SPA (Single Page Application) router designed to keep
+your web applications lean and efficient. With zero dependencies and a small size of less than 3kB,
+petite-router provides essential routing functionality for your JavaScript applications.
 
-Zero dependencies.
 
-Size < 2.8kB.
+📦 **Zero Dependencies**: Keep your project lean and mean!
 
-Uses `r-*` HTML directives to define your routing information.
+🔍 **Simple API**: Define routes, update document titles dynamically, and inject HTML content effortlessly using `r-*` HTML directives.
 
-Features:
-- Routes defined by `r-path="/foo/bar"` directive
-- Page titles defined by `r-title="My Homepage"` directive
-- Inject HTML fetched from a URL using `r-html="/html/my-content.html"` directive (fetch state reflected in `r-status=(loading|success|error)`)
+⚡ **High Performance**: Leveraging efficient DOM operations, petite-router delivers lightning-fast navigation and seamless user experiences.
 
-## HTML Directives
+🪶 **Small Size**: With a size of less than 3kB, petite-router loads fast and keeps your project lightweight.
 
-### r-path
+⚙️ **Configurable**: Easily configure routes and hook into navigation and HTML injection callbacks.
 
-All elements with `r-path` that match the URL path will be set to `hidden=false` and elements that do match are set to `hidden`.
+🛠️ **Developer-Friendly**: Easy to set up and integrate into any project.
 
-Add `hidden` the attribute to your `r-path` elements to avoid flash of HTML content before the JavaScript is loaded
+
+## Features
+
+* **Simple Routing**: Define routes using `r-path` HTML directives, making it easy to specify routing information directly in your HTML markup.
+* **Dynamic Page Titles**: Update document titles dynamically using the `r-title` directive, allowing for improved SEO and user experience.
+* **HTML Content Injection**: Fetch and inject HTML content from URLs using the `r-html` directive, with support for loading indicators and error handling.
+
+## Installation
+
+> TODO:
+>
+> You can install petite-router via npm:
+>
+> ```bash
+> npm install petite-router
+> ```
+>
+> Or include it directly in your HTML:
+>
+> ```bash
+> <script src="path/to/petite-router.min.js"></script>
+> ```
+
+## Usage
+
+### r-path Directive
+
+Use the `r-path` directive to define routes in your HTML elements:
+
+```html
+<div r-path="/about" hidden>About Us</div>
+```
+
+All elements with `r-path` that match the current URL path will be set to `hidden=false`
+
+All elements with `r-path` that do not match the current URL path are set to `hidden`.
+
+> [!TIP]
+> Add the `hidden` attribute to your elements with `r-path` to avoid flash of HTML content before
+> the JavaScript is loaded
 
 Use `r-path="404"` for when no path is matched
 
@@ -31,18 +68,26 @@ Supported path strings:
 - `:param` wildcard attached to parameter (e.g. `/:param` -> `/foo` -> `foo`)
 - `:param(*)` recursive wildcard attached to parameter (e.g. `/:param(*)` -> `/foo/bar/baz` -> `foo/bar/baz`)
 
-### r-title
+### r-title Directive
 
-Updates the document title with the value.
+Update document titles dynamically with the `r-title` directive:
 
-e.g. `r-title="Home Page"` -> "Home Page"
+```html
+<div r-path="/about" r-title="About Us" hidden>About Us Page</div>
+```
 
 If navigating to a route, and no matched `r-path` element exists which contain a `r-title` attribute,
 then the title will revert to the default page title. (`<title>` tag)
 
-### r-html
+### r-html Directive
 
-Will send a fetch request to the value and replace the inner HTML with the text content of the response. e.g. `r-html="/content.html"`
+Fetch and inject HTML content from URLs using the `r-html` directive:
+
+```html
+<div r-html="/content.html">Loading...</div>
+```
+
+Will replace the inner HTML with the text content of the response. e.g. `r-html="/content.html"`
 
 While loading the element will have attribute: `r-status="loading"`
 
@@ -56,4 +101,13 @@ The contents of `r-html` will be fetched and injected onto the page when:
 - The user navigates to a URL path which is not contained by a `r-path` element
 - The hovers over an anchor tag where the `href` matches the `r-path` of the closest parent element
 
-Note: if `r-status` exists on the element, content will not be fetched (or re-fetched).
+> [!NOTE]
+> If `r-status` exists on the element, content will not be fetched (or re-fetched).
+
+> [!NOTE]
+> If HTML content contains a `<html>` tag, the injection will be refused because the content should
+> be a snippet of raw HTML.
+
+## License
+
+petite-router is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

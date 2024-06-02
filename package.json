@@ -1,6 +1,6 @@
 {
   "name": "petite-router",
-  "description": "A small and flexible router for single-page applications",
+  "description": "A tiny client-side router for single-page applications",
   "version": "0.0.1",
   "license": "MIT",
   "author": "plasmatech8",
@@ -35,6 +35,7 @@
     "rollup": "^4.18.0",
     "typescript": "^5.4.5"
   },
+  "homepage": "https://petite-router.pages.dev/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/plasmatech8/petite-router.git"
