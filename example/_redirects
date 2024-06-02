@@ -1,3 +1,0 @@
-/html/*  /html/:splat   200
-/js/*    /js/:splat     200
-/css/*   /css/:splat    200
