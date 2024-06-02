@@ -7,6 +7,6 @@ export default [
   pluginJs.configs.recommended,
   jsdoc.configs['flat/recommended'],
   {
-    ignores: ['dist/*', 'example/*', 'middleware/*', 'devserver.cjs']
+    ignores: ['dist/*', 'example/*', 'middleware/*', 'devserver.cjs', 'functions/*']
   }
 ];
