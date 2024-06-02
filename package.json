@@ -1,7 +1,7 @@
 {
   "name": "petite-router",
   "description": "A tiny client-side router for single-page applications",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "license": "MIT",
   "author": "plasmatech8",
   "type": "module",
