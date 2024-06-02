@@ -6,6 +6,6 @@ node_modules
 .env
 .env.*
 !.env.example
-example/petite-router.es.js
-example/petite-router.es.js.map
+example/petite-router.*
+example/petite-router.*
 /types
