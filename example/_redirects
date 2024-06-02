@@ -1,6 +1,3 @@
-*.html  :splat.html    200
-*.js    :splat.js      200
-*.css   :splat.css     200
-*.png   :splat.png     200
-*.gif   :splat.gif     200
-*.webp  :splat.webp    200
+html/*  html/:splat    200
+js/*    js/:splat      200
+css/*   css/:splat     200
