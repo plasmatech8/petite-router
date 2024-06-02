@@ -1,12 +1,12 @@
 /**
  * @type {Function[]}
  */
-const afterInjectionFunctions = [];
+const afterInjectionCallbacks = [];
 
 /**
  * @type {Function[]}
  */
-const afterNavigationFunctions = [];
+const afterNavigationCallbacks = [];
 
 /**
  * @type {{[key: string]: string}}
@@ -34,16 +34,16 @@ class Router {
    * @returns {Router} Returns the router.
    */
   afterInjection(fn) {
-    afterInjectionFunctions.push(fn);
+    afterInjectionCallbacks.push(fn);
     return this;
   }
   /**
-   * Add a callback that will be called after new HTML content is injected onto the page.
-   * @param {Function} fn Function that will be called after injection.
+   * Add a callback that will be called after navigating to new URL path.
+   * @param {Function} fn Function that will be called after navigation.
    * @returns {Router} Returns the router.
    */
   afterNavigation(fn) {
-    afterNavigationFunctions.push(fn);
+    afterNavigationCallbacks.push(fn);
     return this;
   }
   /**
@@ -153,7 +153,7 @@ function handleRouting(to = location.pathname) {
   }
 
   // Call navigation callbacks
-  afterNavigationFunctions.forEach((f) => f());
+  afterNavigationCallbacks.forEach((f) => f());
 }
 
 /**
@@ -187,7 +187,7 @@ async function handleInjections(to = window.location.pathname, root = document) 
     // Call injection callbacks
     if (newContent) {
       handleRouting();
-      afterInjectionFunctions.forEach((f) => f());
+      afterInjectionCallbacks.forEach((f) => f());
     }
   }
 }
