@@ -32,7 +32,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Build
-        run: npm run build
+        run: npm i && npm run build
       - name: Setup Pages
         uses: actions/configure-pages@v5
       - name: Upload artifact
