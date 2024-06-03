@@ -1,9 +1,8 @@
 # petite-router
 
-Petite Router is a lightweight client-side SPA (Single Page Application) router designed to keep
-your web applications lean and efficient. With zero dependencies and a small size of less than 3kB,
-petite-router provides essential routing functionality for your JavaScript applications.
+A tiny client-side SPA router.
 
+Zero dependencies. Size < 3kB. High performance and a simple API.
 
 📦 **Zero Dependencies**: Keep your project lean and mean!
 
@@ -15,17 +14,25 @@ petite-router provides essential routing functionality for your JavaScript appli
 
 ⚙️ **Configurable**: Easily configure routes and hook into navigation and HTML injection callbacks.
 
-🛠️ **Developer-Friendly**: Easy to set up and integrate into any project.
-
 Inspired by [petite-vue](https://github.com/vuejs/petite-vue) and [navaid](https://github.com/lukeed/navaid).
 
 ## Features
 
-🚏 **Simple Routing**: Define routes using `r-path` HTML directives, making it easy to specify routing information directly in your HTML markup.
+🚏 **Simple Routing**:
 
-🪧 **Dynamic Page Titles**: Update document titles dynamically using the `r-title` directive, allowing for improved SEO and user experience.
+Define routes using `r-path` HTML directives, making it easy to specify routing information directly in your HTML markup.
 
-💉 **HTML Content Injection**: Fetch and inject HTML content from URLs using the `r-html` directive, with support for loading indicators and error handling.
+🪧 **Dynamic Page Titles**:
+
+Update document titles dynamically using the `r-title` directive, allowing for improved SEO and user experience.
+
+💉 **HTML Content Injection**:
+
+Fetch and inject HTML content from URLs using the `r-html` directive, with support for loading indicators and error handling.
+
+🪝 **After Navigation & Injection Hooks**:
+
+Use the methods on the `Router` instance to register callbacks required when your page changes.
 
 ## Installation
 
@@ -57,7 +64,7 @@ This is an example of routing and content injection when using plain HTML/JS:
 
     // Update state variables
     document.getElementById('userId').innerText = router.params.userId
-  })
+  });
 </script>
 
 <ul>
@@ -100,7 +107,7 @@ This is an example of routing and content injection when using plain HTML/JS:
    This content will also appear for both <code>/users</code> and <code>/user/:userId</code>.
 </div>
 
-<div r-path="404" hidden>
+<div r-path="404" r-title="Not Found" hidden>
   Page Not Found: Sorry! This page does not exist.
 </div>
 ```
@@ -171,6 +178,25 @@ The contents of `r-html` will be fetched and injected onto the page when:
 > [!NOTE]
 > If HTML content contains a `<html>` tag, the injection will be refused because the content should
 > be a snippet of raw HTML.
+
+### Router Hooks and Methods
+
+```js
+router.afterNavigation(() => {
+    // Do something required after the user navigates!
+    // e.g. Update state variables that may contain routing information.
+    console.log("Route path:", router.path);
+    console.log("Route parameters:", router.params);
+    localStorage.s
+});
+
+router.afterInjection(() => {
+    // Do something required after new HTML content is injected!
+    // e.g. Update new HTML with JavaScript enhancements.
+    console.log("New content was injected!");
+    app.mount()
+});
+```
 
 ## License
 
