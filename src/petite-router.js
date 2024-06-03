@@ -31,6 +31,8 @@ export class Router {
     convertAllAnchorTagsToRouterLinks();
     handleRouting();
     handleInjections();
+    // @ts-ignore
+    window.router = this;
     return this;
   }
   /**
