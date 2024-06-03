@@ -1,9 +1,15 @@
-<h2>Buzz</h2>
+<div class="card" style="margin-top: 2rem">
+  <h2>Buzz</h2>
 
-<div class="card">
-  <div style="font-weight: bold">Buzz Counter:</div>
-  <div v-scope="{ count: 0 }">
-    <div>Count is {{ count }}</div>
-    <button @click="count++">Increment</button>
+  <p>I am visible on the <code>/baz/buzz</code> path!</p>
+
+  <div>
+    <div style="display: inline-block">
+      <div style="font-weight: bold">Buzz Counter:</div>
+      <div v-scope="{ count: 0 }">
+        <div>Count is {{ count }}</div>
+        <button @click="count++">Increment</button>
+      </div>
+    </div>
   </div>
 </div>

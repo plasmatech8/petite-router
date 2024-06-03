@@ -1,9 +1,23 @@
 <h2>Bar</h2>
 
-<div class="card">
-  <div style="font-weight: bold">Bar Counter:</div>
-  <div v-scope="{ count: 0 }">
-    <div>Count is {{ count }}</div>
-    <button @click="count++">Increment</button>
-  </div>
-</div>
+<h3>Failed fetch HTML example:</h3>
+
+<p>The content below cannot be loaded because it does not exist.</p>
+
+<div r-html="/does-not-exist.html"></div>
+
+<p>The container element will have attribute: <code>r-status="error"</code>.</p>
+
+<p>
+  You can write CSS selector if you want to style it or convert it into a loading icon like I did
+  above: <code>[r-status="error"] { /* CSS */ }</code>.
+</p>
+
+<p>
+  See CSS for the loading spinner and error icon
+  <a
+    href="https://github.com/plasmatech8/petite-router/blob/9d187eceeeb27b239806e2eaed620349d8760cac/example/styles.css#L113-L163"
+    target="_blank"
+    >here</a
+  >.
+</p>

@@ -1,0 +1,23 @@
+<div
+  v-if="router.params.userId"
+  @vue:mounted="nickname = ['Alice', 'Bob', 'Charlie'][router.params.userId-1]"
+  v-scope="{ prettyUserId: '#' + router.params.userId, nickname: '' }"
+>
+  <h2>User {{ prettyUserId }} ({{nickname}})</h2>
+
+  <p>
+    This is an example of utilizing the user ID parameter from the route:
+    <code>/users/:userId</code>
+  </p>
+
+  <p><code>router.params</code> == <code>{{ router.params }}</code></p>
+
+  <p>
+    It also demonstrates reactivity using
+    <a href="https://github.com/vuejs/petite-vue">petite-vue</a>.
+  </p>
+
+  <br />
+
+  <a href="/users">Go back</a>
+</div>

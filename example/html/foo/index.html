@@ -1,15 +1,21 @@
 <h2>Foo</h2>
 
-<p>
-  Lorem ipsum, dolor sit amet consectetur adipisicing elit. Reprehenderit quod, nam exercitationem
-  autem labore quia ipsam omnis placeat libero iste obcaecati nihil tempora! Quia nam recusandae
-  reiciendis exercitationem quasi delectus?
-</p>
+<h3>JavaScript in Injected HTML example:</h3>
 
-<h3>Failed fetch HTML example:</h3>
+<p>Below is a counter.</p>
+
+<p>It was added to the DOM when this "Foo" page was injected onto the page.</p>
 
 <p>
-  The element will have r-status="error". You can write CSS selector for it: [r-status="error"].
+  When the HTML content injected, the JavaScript is refreshed using
+  <code>onInjection(callback)</code> to allow the counter to work as expected.
 </p>
+<br />
 
-<div r-html="/does-not-exist.html"></div>
+<div class="card" style="display: inline-block">
+  <div style="font-weight: bold">Foo Counter:</div>
+  <div v-scope="{ count: 0 }">
+    <div>Count is {{ count }}</div>
+    <button @click="count++">Increment</button>
+  </div>
+</div>

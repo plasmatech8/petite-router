@@ -31,6 +31,7 @@
       <h1>Welcome to my Website</h1>
       <nav>
         <a href="/" :class="{ active: router.match('/') }">Home</a>
+        <a href="/users" :class="{ active: router.match('/users/**') }">Users</a>
         <a href="/foo" :class="{ active: router.match('/foo') }">Foo</a>
         <a href="/bar" :class="{ active: router.match('/bar') }">Bar</a>
         <a href="/baz" :class="{ active: router.match('/baz/**') }">Baz</a>
@@ -39,8 +40,10 @@
     </header>
 
     <main>
+      <!-- Loading Spinner (before JavaScript is loaded) -->
       <div r-path="none" r-status="loading"></div>
 
+      <!-- Home Page -->
       <div r-path="/" r-title="Home" hidden>
         <h2>This is the Home Page!</h2>
 
@@ -63,10 +66,21 @@
         </div>
       </div>
 
+      <!-- Users Pages -->
+      <div r-path="/users" r-title="Users" r-html="/html/users/index.html" hidden></div>
+      <div
+        r-path="/users/:userId"
+        r-title="User Details"
+        r-html="/html/users/detail.html"
+        hidden
+      ></div>
+
+      <!-- Foo/Bar/Baz Pages -->
       <div r-path="/foo" r-title="Foo" r-html="/html/foo/index.html" hidden></div>
       <div r-path="/bar" r-title="Bar" r-html="/html/bar/index.html" hidden></div>
       <div r-path="/baz/**" r-title="Baz" r-html="/html/baz/index.html" hidden></div>
 
+      <!-- 404 Page -->
       <div r-path="404" r-title="Page Not Found" style="text-align: center" hidden>
         <h1>404</h1>
         <p>Oops! Page not found.</p>
