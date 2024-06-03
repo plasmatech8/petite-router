@@ -4,6 +4,10 @@ A tiny client-side SPA router.
 
 Zero dependencies. Size < 3kB. High performance and a simple API.
 
+📖 [API Documentation](https://plasmatech8.github.io/petite-router/modules.html)
+
+💻 [Example Site](https://plasmatech8.github.io/petite-router/modules.html)
+
 📦 **Zero Dependencies**: Keep your project lean and mean!
 
 🔍 **Simple API**: Define routes, update document titles dynamically, and inject HTML content effortlessly using `r-*` HTML directives.
@@ -20,7 +24,8 @@ Inspired by [petite-vue](https://github.com/vuejs/petite-vue) and [navaid](https
 
 🚏 **Simple Routing**:
 
-Define routes using `r-path` HTML directives, making it easy to specify routing information directly in your HTML markup.
+Define routes using `r-path` HTML directives, making it easy to specify routing information directly
+in your HTML markup.
 
 🪧 **Dynamic Page Titles**:
 
@@ -28,11 +33,18 @@ Update document titles dynamically using the `r-title` directive, allowing for i
 
 💉 **HTML Content Injection**:
 
-Fetch and inject HTML content from URLs using the `r-html` directive, with support for loading indicators and error handling.
+Fetch and inject HTML content from URLs using the `r-html` directive, with support for loading
+indicators and error handling.
+
+🚥 **Route Parameters**:
+
+Use the `Router` instance (attached to window) to obtain route parameters
+and perform programmatic navigation.
 
 🪝 **After Navigation & Injection Hooks**:
 
-Use the methods on the `Router` instance to register callbacks required when your page changes.
+Use the methods on the `Router` instance to register callbacks required when your page changes
+due to navigation or HTML injection.
 
 ## Installation
 
@@ -50,9 +62,8 @@ Use the methods on the `Router` instance to register callbacks required when you
 > <script src="path/to/petite-router.min.js"></script>
 > ```
 
-## Usage
 
-### Basic Example
+## Basic Example
 
 This is an example of routing and content injection when using plain HTML/JS:
 
@@ -112,7 +123,9 @@ This is an example of routing and content injection when using plain HTML/JS:
 </div>
 ```
 
-You can see a more complex example under: [/example](example)
+You can see a more complex example under the [Example Site](example)
+
+## Usage
 
 ### Defining Routes
 
