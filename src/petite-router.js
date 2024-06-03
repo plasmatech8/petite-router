@@ -14,6 +14,11 @@ const afterNavigationCallbacks = [];
 let params = {};
 
 /**
+ * @type {string}
+ */
+let originalTitle = document.title;
+
+/**
  * Router object containing callback registration methods and utilities for navigating and
  * managing routes.
  */
@@ -120,10 +125,9 @@ export function createRouter() {
  * @param {string} to Path used for updating the DOM. Defaults to location.pathname.
  */
 function handleRouting(to = location.pathname) {
-  /**
-   * @type {{[key: string]: string}}
-   */
+  /** @type {{[key: string]: string}} */
   params = {};
+  document.title = originalTitle;
 
   // Update elements based on route path
   const elements = document.querySelectorAll('[r-path]');
