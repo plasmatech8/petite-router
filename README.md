@@ -95,7 +95,7 @@ This is an example of routing and content injection when using plain HTML/JS:
   This will be replaced by HTML content fetched from /html/users.html after an anchor tag is hovered which matches <code>/users</code>.
 </div>
 
-<div r-path="/users/:userId" r-title="Users" hidden>
+<div r-path="/users/:userId" r-title="User Profile" hidden>
    This is the page for user #<span id="userId"></span>.
 </div>
 
@@ -144,8 +144,11 @@ Supported path strings:
 
 #### r-title Directive
 
-If navigating to a route, and no `r-title` attribute exists for any matching `r-path` route,
-then the document title will revert to the original page title.
+Sets the document title.
+
+> [!NOTE]
+> If no `r-title` attribute exists for any matching `r-path` route,
+> the document title will revert to the original page title from when the router was mounted.
 
 ### HTML Injection
 
@@ -156,6 +159,10 @@ Fetch and inject HTML content from URLs using the `r-html` directive.
 ```
 
 This will replace the inner HTML with the text content of the response.
+
+> [!CAUTION]
+> When injecting HTML content fetched from external URLs,
+> ensure that the content source is trusted to prevent XSS attacks.
 
 #### r-html directive
 
@@ -173,29 +180,54 @@ The contents of `r-html` will be fetched and injected onto the page when:
 - The hovers over an anchor tag where the `href` matches the `r-path` of the closest parent element
 
 > [!NOTE]
-> If `r-status` exists on the element, content will not be fetched (or re-fetched).
+> If `r-status` already exists on the element, content will not be fetched (or re-fetched).
 
-> [!NOTE]
+> [!WARNING]
 > If HTML content contains a `<html>` tag, the injection will be refused because the content should
 > be a snippet of raw HTML.
 
 ### Router Hooks and Methods
 
+The `Router` instance is attached to the `window` object on mount, so you can use it anywhere.
+
+See [Router API Documentation](https://plasmatech8.github.io/petite-router/classes/Router.html)
+
+Noteworthy methods are noted below.
+
+#### afterNavigation method
+
+Register a callback to be executed after the user navigates to a new URL path.
+
 ```js
 router.afterNavigation(() => {
     // Do something required after the user navigates!
+    console.log("New route path:", router.path);
+    console.log("New route parameters:", router.params);
     // e.g. Update state variables that may contain routing information.
-    console.log("Route path:", router.path);
-    console.log("Route parameters:", router.params);
-    localStorage.s
+    localStorage.setItem('lastPageSeen', router.path);
 });
+```
 
+#### afterInjection method
+
+Register a callback to be executed after new HTML content is injected onto the page.
+
+```js
 router.afterInjection(() => {
     // Do something required after new HTML content is injected!
-    // e.g. Update new HTML with JavaScript enhancements.
     console.log("New content was injected!");
-    app.mount()
+    // e.g. Re-apply JavaScript enhancements.
+    document.querySelectorAll('button').forEach((el) => applyEnhancement(el));
 });
+```
+
+#### match method
+
+Check whether the current URL path matches the specified path (or specific path if specified).
+
+```js
+const isAboutSubpage = router.match('/about/**'); // true/false
+const isUsersSubpage = router.match('/users/**', '/users/0/profile'); // true
 ```
 
 ## License
