@@ -22,7 +22,7 @@ let originalTitle = document.title;
  * Router object containing callback registration methods and utilities for navigating and
  * managing routes.
  */
-class Router {
+export class Router {
   /**
    * Initialize and mount the router to the DOM.
    * @returns {Router} Returns the router.

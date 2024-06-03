@@ -9,5 +9,11 @@
     "checkJs": true,
     "strict": true
   },
-  "include": ["src/**/*.js"]
+  "include": ["src/**/*.js"],
+  "typedocOptions": {
+    "entryPoints": ["src/petite-router.js"],
+    "out": "docs",
+    "plugin": ["typedoc-material-theme"],
+    "themeColor": "#00457e"
+  }
 }

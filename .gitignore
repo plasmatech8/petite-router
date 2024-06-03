@@ -9,3 +9,4 @@ node_modules
 example/petite-router.*
 example/petite-router.*
 /types
+/docs
