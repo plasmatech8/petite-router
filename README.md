@@ -6,7 +6,7 @@ Zero dependencies. Size < 3kB. High performance and a simple API.
 
 📖 [API Documentation](https://plasmatech8.github.io/petite-router/modules.html)
 
-💻 [Example Site](https://plasmatech8.github.io/petite-router/modules.html)
+💻 [Example Site](https://petite-router.pages.dev/)
 
 📦 **Zero Dependencies**: Keep your project lean and mean!
 
@@ -123,7 +123,8 @@ This is an example of routing and content injection when using plain HTML/JS:
 </div>
 ```
 
-You can see a more complex example under the [Example Site](example)
+You can see a more complex example under the
+[Example Site]([example](https://petite-router.pages.dev/)) [code](example)
 
 ## Usage
 
