@@ -4,14 +4,6 @@ export default [
   {
     input: 'src/petite-router.js',
     output: [
-      // CommonJS
-      {
-        file: 'dist/petite-router.js',
-        format: 'commonjs',
-        name: 'PetiteRouter',
-        plugins: [terser()],
-        sourcemap: true
-      },
       // ES Module
       {
         file: 'dist/petite-router.es.js',
@@ -28,7 +20,7 @@ export default [
         plugins: [terser()],
         sourcemap: true
       },
-      // Add to example code
+      // Add ES Module to example code
       {
         file: 'example/petite-router.es.js',
         format: 'es',
@@ -50,7 +42,7 @@ export default [
         plugins: [terser()],
         sourcemap: true
       },
-      // Add to example code
+      // Add IIFE to example code
       {
         file: 'example/petite-router.iife.js',
         format: 'iife',
