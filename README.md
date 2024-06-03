@@ -48,20 +48,54 @@ due to navigation or HTML injection.
 
 ## Installation
 
-> TODO:
->
-> You can install petite-router via npm:
->
-> ```bash
-> npm install petite-router
-> ```
->
-> Or include it directly in your HTML:
->
-> ```bash
-> <script src="path/to/petite-router.min.js"></script>
-> ```
+### Using CDN
 
+Add script tag to header:
+```html
+<script type="module" defer>
+    import { createRouter } from 'https://unpkg.com/petite-router/dist/petite-router.es.js';
+    const router = createRouter().mount();
+</script>
+```
+
+Alternatively, you can import the IIFE script:
+```html
+<script src="https://unpkg.com/petite-router/dist/petite-router.iife.js" defer></script>
+```
+
+### Using NPM
+
+Install package:
+```bash
+npm install petite-router
+```
+
+Create and mount router:
+```ts
+import { createRouter } from 'petite-router';
+const router = createRouter().mount();
+```
+
+Alternatively, you can import the IIFE script:
+```ts
+import 'petite-router/dist/petite-router.iife.js';
+```
+
+### Installation with Petite-Vue
+
+Petite-router and [petite-vue] work well together.
+
+It is recommended to setup in the same way as described in [example/index.html](example/index.html).
+
+### Files
+
+Download the files directly and use them in your project.
+
+| File                                                                                | Description                              |
+| ----------------------------------------------------------------------------------- | ---------------------------------------- |
+| [petite-router.es.js](https://unpkg.com/petite-router/dist/petite-router.es.js)     | ECMAScript Module (ESM) bundle           |
+| [petite-router.umd.js](https://unpkg.com/petite-router/dist/petite-router.umd.js)   | Universal Module Definition (UMD) bundle |
+| [petite-router.iife.js](https://unpkg.com/petite-router/dist/petite-router.iife.js) | Immediately Invoked Function Expression  |
 
 ## Basic Example
 
@@ -242,6 +276,23 @@ Check whether the current URL path matches the specified path (or specific path 
 ```js
 const isAboutSubpage = router.match('/about/**'); // true/false
 const isUsersSubpage = router.match('/users/**', '/users/0/profile'); // true
+```
+
+## Run the Example Site + Development Server
+
+The [example site](example) demonstrates usage of petite-vue and petite-router with a number of
+routing, navigation and HTML injection demonstrations.
+
+Clone the repository, install the dev dependencies:
+```bash
+git clone git@github.com:plasmatech8/petite-router.git
+cd petite-router
+npm install
+```
+
+Run the dev server:
+```bash
+npm run dev
 ```
 
 ## License
