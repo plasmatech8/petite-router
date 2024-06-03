@@ -17,12 +17,15 @@ petite-router provides essential routing functionality for your JavaScript appli
 
 🛠️ **Developer-Friendly**: Easy to set up and integrate into any project.
 
+Inspired by [petite-vue](https://github.com/vuejs/petite-vue) and [navaid](https://github.com/lukeed/navaid).
 
 ## Features
 
-* **Simple Routing**: Define routes using `r-path` HTML directives, making it easy to specify routing information directly in your HTML markup.
-* **Dynamic Page Titles**: Update document titles dynamically using the `r-title` directive, allowing for improved SEO and user experience.
-* **HTML Content Injection**: Fetch and inject HTML content from URLs using the `r-html` directive, with support for loading indicators and error handling.
+🚏 **Simple Routing**: Define routes using `r-path` HTML directives, making it easy to specify routing information directly in your HTML markup.
+
+🪧 **Dynamic Page Titles**: Update document titles dynamically using the `r-title` directive, allowing for improved SEO and user experience.
+
+💉 **HTML Content Injection**: Fetch and inject HTML content from URLs using the `r-html` directive, with support for loading indicators and error handling.
 
 ## Installation
 
@@ -116,14 +119,14 @@ You can additionally add an `r-title` directive to update the document title.
 
 > [!TIP]
 > Add the `hidden` attribute to your elements with `r-path` to avoid flash of HTML content before
-> the JavaScript is loaded. 
+> the JavaScript is loaded.
 
 #### r-path directive
 
 Elements with `r-path` that do not match the current URL path will have the `hidden` attribute added.
 
 Use these special values for `r-path="<value>"` for specific scenarios:
-- `404` - for when no route/path matches the current URL 
+- `404` - for when no route/path matches the current URL
 - `none` - will always be hidden (after JavaScript router is mounted)
 
 Supported path strings:
@@ -154,8 +157,8 @@ The `r-status="<value>"` attribute will be added to describe the status of the H
 - `success` - content successfully fetched and injected
 - `error` - failed to fetch
 
-You can place `r-html` inside of the HTML which will be fetched by another `r-html`. 
-Recusive fetching is possible but not recommended.
+You can place `r-html` inside of the HTML which will be fetched by another `r-html`.
+Recursive fetching is possible but not recommended.
 
 The contents of `r-html` will be fetched and injected onto the page when:
 - The user navigates to a URL path which matches the `r-path` of the closest parent element
