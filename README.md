@@ -42,25 +42,89 @@ petite-router provides essential routing functionality for your JavaScript appli
 
 ## Usage
 
-### r-path Directive
+### Basic Example
 
-Use the `r-path` directive to define routes in your HTML elements:
+This is an example of routing and content injection when using plain HTML/JS:
 
 ```html
-<div r-path="/about" hidden>About Us</div>
+<script>
+  router.afterNavigation(() => {
+    // Print the route parameters from the current route and path
+    console.log(router.params)
+
+    // Update state variables
+    document.getElementById('userId').innerText = router.params.userId
+  })
+</script>
+
+<ul>
+  <li><a href="/">Home</a></li>
+  <li><a href="/about">About</a></li>
+  <li><a href="/users">Users</a></li>
+  <li><a href="/users/42">User #42</a></li>
+  <li><a href="/">Home</a></li>
+</ul>
+
+<div r-path="none">
+  Website Loading... This message will disappear when the JavaScript is loaded.
+</div>
+
+<div r-path="/" r-title="Home" hidden>
+  This is the homepage!
+</div>
+
+<div r-inject="/html/banner.html" hidden>
+  This will be replaced by HTML content fetched from /html/banner.html
+</div>
+
+<div r-path="/about" r-title="About Us" hidden>
+  About Us Page.
+</div>
+
+<div r-path="/users" r-title="Users" r-html="/html/users.html" hidden>
+  This will be replaced by HTML content fetched from /html/users.html after an anchor tag is hovered which matches <code>/users</code>.
+</div>
+
+<div r-path="/users/:userId" r-title="Users" hidden>
+   This is the page for user #<span id="userId"></span>.
+</div>
+
+<div r-path="/users/*" hidden>
+   This content will also appear for <code>/user/:userId</code>.
+</div>
+
+<div r-path="/users/**" hidden>
+   This content will also appear for both <code>/users</code> and <code>/user/:userId</code>.
+</div>
+
+<div r-path="404" hidden>
+  Page Not Found: Sorry! This page does not exist.
+</div>
 ```
 
-All elements with `r-path` that match the current URL path will be set to `hidden=false`
+You can see a more complex example under: [/example](example)
 
-All elements with `r-path` that do not match the current URL path are set to `hidden`.
+### Defining Routes
+
+Use the `r-path` directive to define routes in your HTML elements.
+
+You can additionally add an `r-title` directive to update the document title.
+
+```html
+<div r-path="/about" r-title="About Us" hidden>About Us Page</div>
+```
 
 > [!TIP]
 > Add the `hidden` attribute to your elements with `r-path` to avoid flash of HTML content before
-> the JavaScript is loaded
+> the JavaScript is loaded. 
 
-Use `r-path="404"` for when no path is matched
+#### r-path directive
 
-Use `r-path="none"` if you want a loading icon that will only appear
+Elements with `r-path` that do not match the current URL path will have the `hidden` attribute added.
+
+Use these special values for `r-path="<value>"` for specific scenarios:
+- `404` - for when no route/path matches the current URL 
+- `none` - will always be hidden (after JavaScript router is mounted)
 
 Supported path strings:
 - `*` wildcard  (e.g. `/*` -> `/foo`)
@@ -68,33 +132,30 @@ Supported path strings:
 - `:param` wildcard attached to parameter (e.g. `/:param` -> `/foo` -> `foo`)
 - `:param(*)` recursive wildcard attached to parameter (e.g. `/:param(*)` -> `/foo/bar/baz` -> `foo/bar/baz`)
 
-### r-title Directive
+#### r-title Directive
 
-Update document titles dynamically with the `r-title` directive:
+If navigating to a route, and no `r-title` attribute exists for any matching `r-path` route,
+then the document title will revert to the original page title.
 
-```html
-<div r-path="/about" r-title="About Us" hidden>About Us Page</div>
-```
+### HTML Injection
 
-If navigating to a route, and no matched `r-path` element exists which contain a `r-title` attribute,
-then the title will revert to the default page title. (`<title>` tag)
-
-### r-html Directive
-
-Fetch and inject HTML content from URLs using the `r-html` directive:
+Fetch and inject HTML content from URLs using the `r-html` directive.
 
 ```html
 <div r-html="/content.html">Loading...</div>
 ```
 
-Will replace the inner HTML with the text content of the response. e.g. `r-html="/content.html"`
+This will replace the inner HTML with the text content of the response.
 
-While loading the element will have attribute: `r-status="loading"`
+#### r-html directive
 
-Once succeeded the element will have `r-status="success"` or `r-status="error"` if failed.
+The `r-status="<value>"` attribute will be added to describe the status of the HTML injection:
+- `loading` - fetch still pending
+- `success` - content successfully fetched and injected
+- `error` - failed to fetch
 
-You can place `r-html` anywhere. You can even place `r-html` inside of the content being requested
-by another `r-html`.
+You can place `r-html` inside of the HTML which will be fetched by another `r-html`. 
+Recusive fetching is possible but not recommended.
 
 The contents of `r-html` will be fetched and injected onto the page when:
 - The user navigates to a URL path which matches the `r-path` of the closest parent element
