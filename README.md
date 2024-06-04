@@ -2,49 +2,53 @@
 
 A tiny client-side SPA router.
 
-Zero dependencies. Size < 3kB. High performance and a simple API.
+Zero dependencies. Size < 3kB. High performance with a simple API.
 
-📖 [API Documentation](https://plasmatech8.github.io/petite-router/modules.html)
+📖 [**API Documentation**](https://plasmatech8.github.io/petite-router/modules.html) <br />
+💻 [**Example Site**](https://petite-router.pages.dev/)
 
-💻 [Example Site](https://petite-router.pages.dev/)
+## Why Choose petite-router?
 
-📦 **Zero Dependencies**: Keep your project lean and mean!
+📦 **Zero Dependencies** <br />
+Keep your project lean and fast with no external dependencies.
 
-🔍 **Simple API**: Define routes, update document titles dynamically, and inject HTML content effortlessly using `r-*` HTML directives.
+🔍 **Simple API** <br />
+Define routes, dynamically update document titles, and effortlessly inject HTML content using 
+intuitive `r-*` HTML directives.
 
-⚡ **High Performance**: Leveraging efficient DOM operations, petite-router delivers lightning-fast navigation and seamless user experiences.
+⚡ **High Performance** <br />
+Experience lightning-fast navigation with efficient DOM operations for a seamless user experience.
 
-🪶 **Small Size**: With a size of less than 3kB, petite-router loads fast and keeps your project lightweight.
+🪶 **Small Size** <br />
+Less than 3kB, petite-router loads quickly and keeps your project lightweight.
 
-⚙️ **Configurable**: Easily configure routes and hook into navigation and HTML injection callbacks.
+⚙️ **Highly Configurable** <br />
+Easily set up routes and hook into navigation and HTML injection callbacks to customize your app's 
+behavior.
 
 Inspired by [petite-vue](https://github.com/vuejs/petite-vue) and [navaid](https://github.com/lukeed/navaid).
 
 ## Features
 
-🚏 **Simple Routing**:
+🚏 **Configurable Routing** <br />
+Define routes using `r-path` HTML directives, making it straightforward to specify routing 
+information directly in your HTML markup. Supports wildcards and named parameters.
 
-Define routes using `r-path` HTML directives, making it easy to specify routing information directly
-in your HTML markup.
+🪧 **Dynamic Page Titles** <br />
+Improve SEO and user experience by dynamically updating document titles using the `r-title` 
+directive.
 
-🪧 **Dynamic Page Titles**:
+💉 **HTML Content Injection** <br />
+Fetch and inject HTML content from a URL using the `r-html` directive, with support for 
+loading indicators and error handling.
 
-Update document titles dynamically using the `r-title` directive, allowing for improved SEO and user experience.
+🚥 **Route Parameters** <br />
+Access route parameters and perform programmatic navigation with ease using the `Router` instance, 
+which is attached to the `window` object.
 
-💉 **HTML Content Injection**:
-
-Fetch and inject HTML content from URLs using the `r-html` directive, with support for loading
-indicators and error handling.
-
-🚥 **Route Parameters**:
-
-Use the `Router` instance (attached to window) to obtain route parameters
-and perform programmatic navigation.
-
-🪝 **After Navigation & Injection Hooks**:
-
-Use the methods on the `Router` instance to register callbacks required when your page changes
-due to navigation or HTML injection.
+🪝 **Navigation & Injection Hooks** <br />
+Register callbacks to execute custom logic after navigation or HTML content injection using the 
+methods available on the `Router` instance.
 
 ## Installation
 
@@ -58,7 +62,7 @@ Add script tag to header:
 </script>
 ```
 
-Alternatively, you can import the IIFE script:
+Alternatively, you can load the IIFE script:
 ```html
 <script src="https://unpkg.com/petite-router/dist/petite-router.iife.js" defer></script>
 ```
@@ -97,10 +101,11 @@ Download the files directly and use them in your project.
 | [petite-router.umd.js](https://unpkg.com/petite-router/dist/petite-router.umd.js)   | Universal Module Definition (UMD) bundle |
 | [petite-router.iife.js](https://unpkg.com/petite-router/dist/petite-router.iife.js) | Immediately Invoked Function Expression  |
 
-## Basic Example
+## Usage
+
+### Basic Example
 
 This is an example of routing and content injection when using plain HTML/JS:
-
 ```html
 <script>
   router.afterNavigation(() => {
@@ -117,7 +122,6 @@ This is an example of routing and content injection when using plain HTML/JS:
   <li><a href="/about">About</a></li>
   <li><a href="/users">Users</a></li>
   <li><a href="/users/42">User #42</a></li>
-  <li><a href="/">Home</a></li>
 </ul>
 
 <div r-path="none">
@@ -157,16 +161,13 @@ This is an example of routing and content injection when using plain HTML/JS:
 </div>
 ```
 
-You can see a more complex example under the
-[Example Site]([example](https://petite-router.pages.dev/)) [code](example)
-
-## Usage
+For a more complex example, see the [example site](example).
 
 ### Defining Routes
 
 Use the `r-path` directive to define routes in your HTML elements.
 
-You can additionally add an `r-title` directive to update the document title.
+Add an `r-title` directive to update the document title.
 
 ```html
 <div r-path="/about" r-title="About Us" hidden>About Us Page</div>
@@ -176,7 +177,11 @@ You can additionally add an `r-title` directive to update the document title.
 > Add the `hidden` attribute to your elements with `r-path` to avoid flash of HTML content before
 > the JavaScript is loaded.
 
-#### r-path directive
+> [!NOTE]
+> If no `r-title` attribute exists for any matching `r-path` route,
+> the document title will revert to the original page title from when the router was mounted.
+
+#### `r-path` directive
 
 Elements with `r-path` that do not match the current URL path will have the `hidden` attribute added.
 
@@ -190,17 +195,18 @@ Supported path strings:
 - `:param` wildcard attached to parameter (e.g. `/:param` -> `/foo` -> `foo`)
 - `:param(*)` recursive wildcard attached to parameter (e.g. `/:param(*)` -> `/foo/bar/baz` -> `foo/bar/baz`)
 
-#### r-title Directive
+#### `r-title` Directive
 
-Sets the document title.
+Sets the document title dynamically based on the route.
 
-> [!NOTE]
-> If no `r-title` attribute exists for any matching `r-path` route,
-> the document title will revert to the original page title from when the router was mounted.
+If titles for multiple routes are active, it will use the last title of the last
+active route in document order.
 
 ### HTML Injection
 
 Fetch and inject HTML content from URLs using the `r-html` directive.
+
+The `r-status` attribute will be added to describe the status of the fetch & injection.
 
 ```html
 <div r-html="/content.html">Loading...</div>
@@ -209,42 +215,41 @@ Fetch and inject HTML content from URLs using the `r-html` directive.
 This will replace the inner HTML with the text content of the response.
 
 > [!CAUTION]
-> When injecting HTML content fetched from external URLs,
-> ensure that the content source is trusted to prevent XSS attacks.
+> Ensure content sources are trusted when injecting HTML content fetched from external
+> URLs to prevent XSS attacks.
 
-#### r-html directive
+> [!NOTE]
+> If `r-status` already exists on the element, content will not be fetched/re-fetched.
 
-The `r-status="<value>"` attribute will be added to describe the status of the HTML injection:
-- `loading` - fetch still pending
-- `success` - content successfully fetched and injected
-- `error` - failed to fetch
+> [!WARNING]
+> If HTML content contains a `<html>` tag, the injection will be refused because the content should
+> be a snippet of raw HTML. If you are using an SPA server and mispell the path to a HTML resource,
+> it may return a 404 page instead of your intended HTML snippet.
 
-You can place `r-html` inside of the HTML which will be fetched by another `r-html`.
-Recursive fetching is possible but not recommended.
+#### `r-html` directive
 
 The contents of `r-html` will be fetched and injected onto the page when:
 - The user navigates to a URL path which matches the `r-path` of the closest parent element
 - The user navigates to a URL path which is not contained by a `r-path` element
 - The hovers over an anchor tag where the `href` matches the `r-path` of the closest parent element
 
-> [!NOTE]
-> If `r-status` already exists on the element, content will not be fetched (or re-fetched).
+You can place `r-html` inside of a HTML snippet which is fetched by another `r-html` request.
+Recursive fetching is possible but not recommended.
 
-> [!WARNING]
-> If HTML content contains a `<html>` tag, the injection will be refused because the content should
-> be a snippet of raw HTML.
+#### `r-status` directive
+
+The `r-status="<value>"` attribute will be added to describe the status of the HTML injection:
+- `loading` - fetch still pending
+- `success` - content successfully fetched and added to DOM
+- `error` - failed to fetch
 
 ### Router Hooks and Methods
 
 The `Router` instance is attached to the `window` object on mount, so you can use it anywhere.
 
-See [Router API Documentation](https://plasmatech8.github.io/petite-router/classes/Router.html)
+#### `afterNavigation` method
 
-Noteworthy methods are noted below.
-
-#### afterNavigation method
-
-Register a callback to be executed after the user navigates to a new URL path.
+Register a callback called after the user navigates to a new URL path.
 
 ```js
 router.afterNavigation(() => {
@@ -256,9 +261,9 @@ router.afterNavigation(() => {
 });
 ```
 
-#### afterInjection method
+#### `afterInjection` method
 
-Register a callback to be executed after new HTML content is injected onto the page.
+Register a callback called after new HTML content is injected onto the page.
 
 ```js
 router.afterInjection(() => {
@@ -269,14 +274,31 @@ router.afterInjection(() => {
 });
 ```
 
-#### match method
+#### `match` function
 
-Check whether the current URL path matches the specified path (or specific path if specified).
+Check whether the current URL path matches the specified path.
 
 ```js
 const isAboutSubpage = router.match('/about/**'); // true/false
 const isUsersSubpage = router.match('/users/**', '/users/0/profile'); // true
+const isUsersSubpage = router.match('/storage/:bucket/:key(*)/*.txt', '/storage/mybucket/path/to/my/file/file.txt'); // true
 ```
+
+#### `params` property
+
+Get an object containing route parameter values for the current route.
+
+```js
+// Route: /storage/:bucket/:key(*)/*.txt 
+// Path:  /storage/mybucket/path/to/my/file/file.txt
+const params = router.params // { bucket: 'mybucket', key: 'path/to/my/file' }
+```
+
+---
+
+For additional methods, see the [Router API Documentation](https://plasmatech8.github.io/petite-router/classes/Router.html) .
+
+---
 
 ## Run the Example Site + Development Server
 
