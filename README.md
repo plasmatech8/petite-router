@@ -1,4 +1,5 @@
-# petite-router
+# petite-router · <a href="https://www.npmjs.com/package/petite-router"><img src="https://img.shields.io/npm/v/petite-router.svg" alt="Version">
+  </a>
 
 A simple and tiny client-side SPA router.
 
