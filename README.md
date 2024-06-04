@@ -1,53 +1,35 @@
 # petite-router
 
-A tiny client-side SPA router.
+A simple and tiny client-side SPA router.
 
 Zero dependencies. Size < 3kB. High performance with a simple API.
 
-📖 [**API Documentation**](https://plasmatech8.github.io/petite-router/modules.html) <br />
+📖 [**API Documentation**](https://plasmatech8.github.io/petite-router/modules.html)
+
 💻 [**Example Site**](https://petite-router.pages.dev/)
-
-## Why Choose petite-router?
-
-📦 **Zero Dependencies** <br />
-Keep your project lean and fast with no external dependencies.
-
-🔍 **Simple API** <br />
-Define routes, dynamically update document titles, and effortlessly inject HTML content using 
-intuitive `r-*` HTML directives.
-
-⚡ **High Performance** <br />
-Experience lightning-fast navigation with efficient DOM operations for a seamless user experience.
-
-🪶 **Small Size** <br />
-Less than 3kB, petite-router loads quickly and keeps your project lightweight.
-
-⚙️ **Highly Configurable** <br />
-Easily set up routes and hook into navigation and HTML injection callbacks to customize your app's 
-behavior.
 
 Inspired by [petite-vue](https://github.com/vuejs/petite-vue) and [navaid](https://github.com/lukeed/navaid).
 
 ## Features
 
 🚏 **Configurable Routing** <br />
-Define routes using `r-path` HTML directives, making it straightforward to specify routing 
+Define routes using `r-path` HTML directives, making it straightforward to specify routing
 information directly in your HTML markup. Supports wildcards and named parameters.
 
 🪧 **Dynamic Page Titles** <br />
-Improve SEO and user experience by dynamically updating document titles using the `r-title` 
+Improve SEO and user experience by dynamically updating document titles using the `r-title`
 directive.
 
 💉 **HTML Content Injection** <br />
-Fetch and inject HTML content from a URL using the `r-html` directive, with support for 
+Fetch and inject HTML content from a URL using the `r-html` directive, with support for
 loading indicators and error handling.
 
 🚥 **Route Parameters** <br />
-Access route parameters and perform programmatic navigation with ease using the `Router` instance, 
+Access route parameters and perform programmatic navigation with ease using the `Router` instance,
 which is attached to the `window` object.
 
 🪝 **Navigation & Injection Hooks** <br />
-Register callbacks to execute custom logic after navigation or HTML content injection using the 
+Register callbacks to execute custom logic after navigation or HTML content injection using the
 methods available on the `Router` instance.
 
 ## Installation
@@ -87,7 +69,10 @@ import 'petite-router/dist/petite-router.iife.js';
 
 ### Installation with Petite-Vue
 
-Petite-router and [petite-vue] work well together.
+Petite-router and [petite-vue] can be used together.
+
+However, some complications may arise when using HTML injection
+on elements subject to conditional directives.
 
 It is recommended to setup in the same way as described in [example/index.html](example/index.html).
 
@@ -289,7 +274,7 @@ const isUsersSubpage = router.match('/storage/:bucket/:key(*)/*.txt', '/storage/
 Get an object containing route parameter values for the current route.
 
 ```js
-// Route: /storage/:bucket/:key(*)/*.txt 
+// Route: /storage/:bucket/:key(*)/*.txt
 // Path:  /storage/mybucket/path/to/my/file/file.txt
 const params = router.params // { bucket: 'mybucket', key: 'path/to/my/file' }
 ```
@@ -316,6 +301,12 @@ Run the dev server:
 ```bash
 npm run dev
 ```
+
+## Known Issues
+
+- `r-html` does not work when inside `v-if` or `v-for` or any JavaScript DOM operation that mounts the tag after router is mounted.
+  - There may be a way to re-mount the router, or re-run injections after JavaScript DOM operation is applied.
+  - Elements with `r-html` may get stuck with `r-status="loading"`
 
 ## License
 
