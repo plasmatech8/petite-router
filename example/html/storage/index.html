@@ -1,0 +1,38 @@
+<h2>Storage</h2>
+
+<h3>Recursive Route Parameter Example</h3>
+
+<p>
+  The routes below match the <code>/storage/:bucket/:key(*)</code> route which contains URL
+  parameters.
+</p>
+
+<p>
+  Route parameter values for the current route are available in the
+  <code>router.params</code> property.
+</p>
+
+<h3>Example Links</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Description</th>
+      <th>URL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="/storage/images">Bucket base route</a></td>
+      <td><code>/storage/images</code></td>
+    </tr>
+    <tr>
+      <td><a href="/storage/images/foo/bar">A route to a folder</a></td>
+      <td><code>/storage/images/foo/bar</code></td>
+    </tr>
+    <tr>
+      <td><a href="/storage/images/foo/bar/baz/funny.png">A route to an image file</a></td>
+      <td><code>/storage/images/foo/bar/baz/funny.png</code></td>
+    </tr>
+  </tbody>
+</table>

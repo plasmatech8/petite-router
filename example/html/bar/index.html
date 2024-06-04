@@ -1,23 +1,57 @@
 <h2>Bar</h2>
 
-<h3>Failed fetch HTML example:</h3>
+<h3>HTML Injection - Failed to fetch HTML</h3>
 
-<p>The content below cannot be loaded because it does not exist.</p>
+<p>
+  The content below cannot be injected because <code>/does-not-exist.html</code> does not exist.
+</p>
 
 <div r-html="/does-not-exist.html"></div>
 
-<p>The container element will have attribute: <code>r-status="error"</code>.</p>
+<p>This element was styled with a error icon to show that something went wrong on the page.</p>
 
 <p>
-  You can write CSS selector if you want to style it or convert it into a loading icon like I did
-  above: <code>[r-status="error"] { /* CSS */ }</code>.
+  The container element will have the attribute added after it fails to inject:
+  <code>r-status="error"</code>.
 </p>
 
 <p>
-  See CSS for the loading spinner and error icon
+  An error icon can be implemented with the CSS selector:
+  <code>[r-status="error"] { /* CSS */ }</code>.
+</p>
+
+<br />
+
+<h3>HTML Injection - Loading & Error State</h3>
+
+<p>
+  See the CSS used
   <a
     href="https://github.com/plasmatech8/petite-router/blob/9d187eceeeb27b239806e2eaed620349d8760cac/example/styles.css#L113-L163"
     target="_blank"
     >here</a
   >.
 </p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Loading Spinner</th>
+      <th>Error Icon</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>r-status="loading"</code>
+        <div r-status="loading"></div>
+      </td>
+      <td>
+        <code>r-status="error"</code>
+        <div r-status="error"></div>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br />

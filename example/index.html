@@ -33,6 +33,7 @@
       <nav>
         <a href="/" :class="{ active: router.match('/') }">Home</a>
         <a href="/users" :class="{ active: router.match('/users/**') }">Users</a>
+        <a href="/storage" :class="{ active: router.match('/storage/**') }">Storage</a>
         <a href="/foo" :class="{ active: router.match('/foo') }">Foo</a>
         <a href="/bar" :class="{ active: router.match('/bar') }">Bar</a>
         <a href="/baz" :class="{ active: router.match('/baz/**') }">Baz</a>
@@ -67,12 +68,30 @@
         </div>
       </div>
 
-      <!-- Users Pages -->
+      <!-- Users Page -->
       <div r-path="/users" r-title="Users" r-html="/html/users/index.html" hidden></div>
+
+      <!-- User Details Page -->
       <div
         r-path="/users/:userId"
         r-title="User Details"
         r-html="/html/users/detail.html"
+        hidden
+      ></div>
+
+      <!-- Storage Buckets Page -->
+      <div
+        r-path="/storage"
+        r-title="Storage Buckets"
+        r-html="/html/storage/index.html"
+        hidden
+      ></div>
+
+      <!-- Storage File Page -->
+      <div
+        r-path="/storage/:bucket/:key(*)"
+        r-title="Storage"
+        r-html="/html/storage/file.html"
         hidden
       ></div>
 

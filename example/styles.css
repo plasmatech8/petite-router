@@ -23,6 +23,24 @@ code {
   padding: 0 0.2rem;
 }
 
+/* Tables */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+table,
+th,
+td {
+  border: 1px solid grey;
+}
+th,
+td {
+  padding: 10px;
+  text-align: left;
+}
+
 /* Header */
 
 header {
@@ -66,6 +84,7 @@ header nav a {
 
 header nav a:hover:not(.active) {
   background-color: #444;
+  text-decoration: underline;
 }
 
 header a.active {

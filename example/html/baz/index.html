@@ -7,21 +7,61 @@
   all paths under <code>/baz</code>.
 </p>
 
-<div>
-  <div class="card" style="display: inline-block">
-    <div style="font-weight: bold">Baz Counter:</div>
-    <div v-scope="{ count: 0 }">
-      <div>Count is {{ count }}</div>
-      <button @click="count++">Increment</button>
-    </div>
-  </div>
+<br />
+
+<h3>Example Links</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>URL</th>
+      <th>Routes Matched</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="/baz">/baz</a></td>
+      <td><code>/baz/**</code></td>
+    </tr>
+    <tr>
+      <td><a href="/baz/111">/baz/111</a></td>
+      <td><code>/baz/**</code>, <code>/baz/*</code></td>
+    </tr>
+    <tr>
+      <td><a href="/baz/222/corge">/baz/222/corge</a></td>
+      <td><code>/baz/**</code>, <code>/baz/*/corge</code></td>
+    </tr>
+    <tr>
+      <td><a href="/baz/444/corge/garply">/baz/444/corge/garply</a></td>
+      <td><code>/baz/**</code>, <code>/baz/*/*/garply</code>, <code>/baz/*/corge/*</code></td>
+    </tr>
+  </tbody>
+</table>
+
+<div r-path="/baz" hidden>
+  <div style="display: grid; place-items: center; padding: 4rem">Navigate to a route!</div>
 </div>
 
-<p>
-  If we navigate to <code>/baz/buzz</code>, elements with <code>r-path="/baz/buzz"</code> will also
-  be visible.
-</p>
+<div r-path="/baz/*" class="card" style="margin-top: 2rem" hidden>
+  <h2>Qux</h2>
+  <p>I am visible on the <code>/baz/*</code> route!</p>
+  <div r-html="/html/counter.html"></div>
+</div>
 
-<a href="/baz/buzz">Go to Buzz</a>
+<div r-path="/baz/*/corge" class="card" style="margin-top: 2rem" hidden>
+  <h2>Corge</h2>
+  <p>I am visible on the <code>/baz/*/corge</code> route!</p>
+  <div r-html="/html/counter.html"></div>
+</div>
 
-<div r-path="/baz/buzz" r-title="Baz-Buzz" r-html="/html/baz/buzz/index.html"></div>
+<div r-path="/baz/*/*/garply" class="card" style="margin-top: 2rem" hidden>
+  <h2>Garply</h2>
+  <p>I am visible on the <code>/baz/*/*/garply</code> route!</p>
+  <div r-html="/html/counter.html"></div>
+</div>
+
+<div r-path="/baz/*/corge/*" class="card" style="margin-top: 2rem" hidden>
+  <h2>Grault</h2>
+  <p>I am visible on the <code>/baz/*/corge/*</code> route!</p>
+  <div r-html="/html/counter.html"></div>
+</div>

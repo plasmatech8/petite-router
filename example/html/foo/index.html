@@ -1,14 +1,16 @@
 <h2>Foo</h2>
 
-<h3>JavaScript in Injected HTML example:</h3>
+<h3>HTML Injection - JavaScript works in the Injected HTML</h3>
 
 <p>Below is a counter.</p>
 
 <p>It was added to the DOM when this "Foo" page was injected onto the page.</p>
 
 <p>
-  When the HTML content injected, the JavaScript is refreshed using
-  <code>onInjection(callback)</code> to allow the counter to work as expected.
+  When the HTML content injected, <a href="https://github.com/vuejs/petite-vue">petite-vue</a>
+  (the JavaScript library we are using for reactivity in this demo) is re-mounted using
+  <code>onInjection(app.mount)</code> to allow the counter to work as expected, even though it was
+  not originally present in the DOM.
 </p>
 <br />
 
