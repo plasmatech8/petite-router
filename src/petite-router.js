@@ -259,18 +259,25 @@ function convertAllAnchorTagsToRouterLinks() {
  */
 function matchRoute(route, path) {
   // Convert route string to regex pattern
-  const patternString = route
-    // Escape any regex
-    .replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    // Convert :param(*) to (/(?<param>.+))?
-    .replace(/\/:([^\s/]+)\\\(\\\*\\\)/g, (_, paramName) => `(/(?<${paramName}>.+))?`)
-    // Convert :param to (?<param>[^/]+)
-    .replace(/:([^\s/]+)/g, (_, paramName) => `(?<${paramName}>[^/]+)`)
-    // Convert /** to (/.+)?
-    .replace(/\/\\\*\\\*/g, '(/.+)?')
-    // Convert * to [^/]+
-    .replace(/\\\*/g, '[^/]+');
-  const pattern = new RegExp(`^${patternString}/?$`);
+  const segments = route
+    .replace(/^\/|\/$/g, '')
+    .split('/')
+    .map((segment) => {
+      // Wildcard
+      if (segment === '*') return '/[^/]+';
+      // Recursive wildcard
+      if (segment === '**') return '(/.+)?';
+      // Named parameter
+      const match = segment.match(/^:([a-zA-Z][a-zA-Z\d_]*)(\(\*\))?$/);
+      if (match) {
+        const name = match[1];
+        const recursive = match[2];
+        return recursive ? `(/(?<${name}>.+))?` : `/(?<${name}>[^/]+)`;
+      }
+      // Hard-coded path value. Escape any regex characters.
+      return '/' + segment.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    });
+  const pattern = new RegExp(`^${segments.join('')}/?$`);
   const match = path.match(pattern);
   return match ? { ...match.groups } : null;
 }
