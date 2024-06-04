@@ -258,6 +258,7 @@ function convertAllAnchorTagsToRouterLinks() {
  * @returns {{[key: string]: string } | null} Returns an object of route information if matched, otherwise null.
  */
 function matchRoute(route, path) {
+  if (!route.startsWith('/')) return null;
   // Convert route string to regex pattern
   const segments = route
     .replace(/^\/|\/$/g, '')
