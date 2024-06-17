@@ -93,7 +93,7 @@ Download the files directly and use them in your project.
 
 This is an example of routing and content injection when using plain HTML/JS:
 ```html
-<script>
+<script type="module">
   router.afterNavigation(() => {
     // Print the route parameters from the current route and path
     console.log(router.params)
